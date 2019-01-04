@@ -594,7 +594,7 @@ body {
 
 a {
   color: #8d8d8d;
-  text-decoration: line-through;
+  text-decoration: none;
 }
 a:hover {
   color: #232323;
@@ -1305,4 +1305,48 @@ html:not(.cssclippathpolygon) .image.in:after {
     transition: clip-path 1s cubic-bezier(0.7, 0.01, 0, 1) 0.8s, opacity 0s 0.9s;
     transition: clip-path 1s cubic-bezier(0.7, 0.01, 0, 1) 0.8s, opacity 0s 0.9s, -webkit-clip-path 1s cubic-bezier(0.7, 0.01, 0, 1) 0.8s;
   }
+}
+.devProject h1 span {
+  font-weight: 100
+}
+.appName {
+  font-size: 40px;
+}
+.appName img {
+  width: 20px;
+  height: auto;
+}
+i {
+  font-style: italic;
+  opacity: .5;
+}
+s {
+  text-decoration: line-through;
+}
+.oldVersions {
+  opacity: .35;
+}
+.oldVersions:hover {
+  opacity: 1;
+}
+.warningText {
+  color: red;
+  opacity: .5;
+}
+.hrSmall {
+  width: 50%;
+  opacity:.25;
+  margin: 30px auto;
+}
+.devItem {
+  width: 47%;
+  float:left;
+  padding: 10px 20px;
+  border: solid black 1px;
+  border-radius: 20px;
+  margin: 10px;
+  overflow: scroll;
+}
+.devItem li {
+  margin: 25px 10px;
 }
