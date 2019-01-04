@@ -920,7 +920,6 @@ img {
     justify-content: flex-start;
   }
   nav ul li {
-    font-size: 1rem;
     text-transform: uppercase;
     margin: 0 2rem 0 0;
   }
@@ -1011,7 +1010,7 @@ body {
   margin-left: 50px;
 }
 .allImages li {
-  text-align: left;
+  text-align: right;
     margin-bottom: 5vh;
     margin-left: -3vw;
 }
@@ -1346,7 +1345,4 @@ s {
   border-radius: 20px;
   margin: 10px;
   overflow: scroll;
-}
-.devItem li {
-  margin: 25px 10px;
 }
