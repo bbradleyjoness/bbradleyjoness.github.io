@@ -1331,6 +1331,7 @@ s {
 .warningText {
   color: red;
   opacity: .5;
+  text-align: center;
 }
 .hrSmall {
   width: 50%;
