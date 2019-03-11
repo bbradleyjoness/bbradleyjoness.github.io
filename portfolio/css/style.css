@@ -1,10 +1,12 @@
+html {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 .content {
   width: 80%;
   height: auto;
   margin: 0 auto;
   margin-bottom: 100px;
   top: 0px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 @media (min-width: 450px) and (max-width: 899px) {
   .content {
