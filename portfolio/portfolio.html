@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>bradley dean jones portfolio</title>
+
+
+  <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+
+</head>
+
+<body>
+
+  <html>
+<!--
+TO DO
+  • make themes?
+  • ability to close lightbox by clicking outside
+  • media queries
+  • load more?
+  • social media buttons
+  • if no items ___.
+  • multiple photos per post?
+  • Written articles?
+  • lazy loader
+-->
+
+<head>
+  <title>bdj</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $.getJSON('https://api.sheety.co/86f422a4-590e-41ad-a354-b54d7d7afde2', function(data) {
+        var template = Handlebars.compile($('#item-template').html())
+        $('.content').html(template(data))
+      })
+    })
+  </script>
+
+  <script id="item-template" type="text/x-handlebars-template">
+<div class="grid-sizer"></div>
+<!--     <p class="single-content photography grid-item" id="countPhoto"></p>
+    <p class="single-content design grid-item" id="countDesign"></p>
+    <p class="single-content development grid-item" id="countDev"></p> -->
+
+
+    {{#each this}}
+<!--     <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>" href="{{link}}"> -->
+        <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>{{caption}}" href="{{link}}">
+      <img src="{{link}}" alt="{{title}} - {{caption}}" ></a>
+    {{/each}}
+    <script>
+      document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+
+      // document.write("&copy; " + strRomanDate);
+
+      document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+      document.getElementById("countDesign").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.design').length - 1) + " design posts.";
+      document.getElementById("countDev").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.development').length - 1) + " development posts.";
+    </script>
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <h4><a href="http://bradleyjon.es/" target="_blank">bradley dean jones</a></h4>
+
+  </div>
+  <!-- Content -->
+  <div class="content grid">
+    <div id="items">Loading portfolio...</div>
+  </div>
+  <!-- <div class="footer">fin</div> -->
+
+
+
+  <!-- Menu -->
+
+  <div class="filters filter-button-group">
+    <ul>
+      <li class="active" data-filter="*">all</li>
+      <li data-filter=".photography">photography</li>
+      <li data-filter=".design">design</li>
+      <li data-filter=".development">development</li>
+    </ul>
+  </div>
+</body>
+
+</html>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.js'></script>
+<script src='https://imagesloaded.desandro.com/imagesloaded.pkgd.min.js'></script>
+
+
+
+    <script src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>

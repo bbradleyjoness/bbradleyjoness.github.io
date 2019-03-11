@@ -1,0 +1,198 @@
+$black: #333333
+// $size-desktop: 1100px
+// $size-ipad-portrait: 767px
+$smallest-width: 320px
+$smartphone-width: 450px
+$tablet-width: 768px
+$desktop-width: 900px
+
+@mixin smallest
+  @media (min-width: 0px) and (max-width: #{$smallest-width - 1px}) 
+    @content
+@mixin smartphone  
+  @media (min-width: 0px) and (max-width: #{$smartphone-width - 1px}) 
+    @content
+@mixin tablet 
+  @media (min-width: #{$smartphone-width}) and (max-width: #{$desktop-width - 1px}) 
+    @content
+@mixin desktop 
+  @media (min-width: #{$desktop-width}) and (max-width: 1200px) 
+    @content
+
+@function randomNum($min, $max) 
+  $rand: random()
+  $randomNum: $min + floor($rand * (($max - $min) + 1))
+  @return $randomNum
+
+
+
+  
+// body 
+//   @include smartphone 
+//     background: yellow
+//   @include smallest 
+//     background: purple
+//   @include tablet 
+//     background: blue
+//   @include desktop 
+//     background: green
+    
+.content
+  width: 80%
+  height: auto
+  margin: 0 auto
+  margin-bottom: 100px
+  top: 0px
+  @include tablet 
+    width: 90%
+  @include smallest 
+    width: 90%
+  &:hover .grid-item
+    // box-shadow: 5px 5px 30px 0px black
+    transform: scale(1.05)
+    z-index: 99
+    transition: 0.25s
+    -webkit-transition-timing-function: ease
+    transition-timing-function: ease
+    // object-fit: contain
+  &:hover .grid-item:not(:hover)
+    box-shadow: none
+    transition: 0s
+    -webkit-filter: grayscale(1)
+    filter: grayscale(1)
+    transform: scale(1) !important
+    opacity: .25
+  &:hover img
+    box-shadow: 5px 5px 30px 0px black
+  &:hover img:not(:hover)
+    box-shadow: none
+    transition: 0s
+    -webkit-filter: grayscale(1)
+    filter: grayscale(1)
+.single-content
+  padding: 5px
+  width: 25%
+  @include desktop
+    width: 25%
+  @include tablet 
+    width: 50%
+  @include smartphone 
+    width: 100%
+    height: 350px 
+  @include smallest 
+    height: 300px 
+  height: 350px
+  float: left
+  margin: 0 auto
+  &:nth-child(2n)
+    width: 25%
+    height: 200px
+    @include desktop
+      width: 25%
+      height: #{randomNum(200, 350)}px
+    @include tablet 
+      width: 50%
+      height: #{randomNum(200, 350)}px
+    @include smartphone 
+      width: 100%
+  img
+    border-radius: 15px 
+    width: 100%
+    height: 100%
+    object-fit: cover
+    z-index: 1
+#items
+  &:after
+    content: ''
+    display: block
+    clear: both
+.grid-sizer
+  width: 25%
+.fancybox-caption
+  background: rgba(0,0,0,.75)
+  // background: black
+  @include smartphone
+    width: 100%
+    padding: 30px 20px
+.fancybox-caption__body
+  font-weight: normal
+  margin-top: 0px
+  font-size: calc(12px + .5vw)
+  color: lightgray
+  @include smartphone
+    width: 100%
+  small
+    font-size: calc(8px + .5vw)
+    opacity: .2
+    font-weight: normal
+    margin-left: 10px
+    @include smartphone
+      float: none
+      display: block
+      margin: 0
+      margin-top: 15px
+  span
+    font-size: calc(8px + .5vw)
+    opacity: .2
+    font-weight: normal
+    margin-left: 10px
+    float: right
+    line-height: 40px
+    @include smartphone
+      float: left
+      width: 100%
+      margin: 0
+  p
+    font-size: calc(20px + .5vw)
+    font-weight: 500
+    text-transform: lowercase
+    color: white
+    @include smartphone
+      float: none
+    
+.filters
+  width: 100%
+  background-color: #262626
+  position: fixed
+  bottom: 0
+  text-align: center
+  z-index: 99
+  ul
+    list-style: none
+    padding: 20px 0
+    
+    li
+      display: inline
+      padding: 0 10px
+      font-size: 16px
+      color: #636363
+      font-weight: 200
+      cursor: pointer
+      &:hover
+        color: #a6a6a6
+      
+    li.active
+      color: #a6a6a6
+
+.footer
+  margin-top: 100px
+  width: 100%
+      
+#countPhoto, #countDesign, #countDev
+  padding: 15px
+  height: 300px
+  transform: scale(.97)
+  float: left
+  border-radius: 15px 
+  transition: 0s
+  background-color: black
+  color: white
+  font-size: calc(12px + .5vw)
+// #countPhoto
+//   background-color: green
+// #countDesign
+//   background-color: blue
+// #countDev
+//   background-color: red
+  
+  
