@@ -1,6 +1,3 @@
-html {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
 .content {
   width: 80%;
   height: auto;
@@ -69,6 +66,27 @@ html {
 @media (min-width: 0px) and (max-width: 319px) {
   .single-content {
     height: 300px;
+  }
+}
+.single-content:nth-child(2n) {
+  width: 25%;
+  height: 200px;
+}
+@media (min-width: 900px) and (max-width: 1200px) {
+  .single-content:nth-child(2n) {
+    width: 25%;
+    height: 342px;
+  }
+}
+@media (min-width: 450px) and (max-width: 899px) {
+  .single-content:nth-child(2n) {
+    width: 50%;
+    height: 328px;
+  }
+}
+@media (min-width: 0px) and (max-width: 449px) {
+  .single-content:nth-child(2n) {
+    width: 100%;
   }
 }
 .single-content img {
