@@ -1,136 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" >
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>bradley dean jones</title>
-
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-
-
-  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css'>
-
-      <link rel="stylesheet" href="css/style.css">
-
-
-  <title>bdj</title>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script id="item-template" type="text/x-handlebars-template">
-<div class="grid-sizer"></div>
-<!--     <p class="single-content photography grid-item" id="countPhoto"></p>
-    <p class="single-content design grid-item" id="countDesign"></p>
-    <p class="single-content development grid-item" id="countDev"></p> -->
+	<meta charset="UTF-8">
+	<title>bradley dean jones</title>
+	<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+	<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet'>
+	<link href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css' rel='stylesheet'>
+	<link href="css/style.css" rel="stylesheet">
+	<title>bdj</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js" type="text/javascript">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript">
+	</script>
+	<script id="item-template" type="text/x-handlebars-template">
+	<div class="grid-sizer"></div>
+	<!--     <p class="single-content photography grid-item" id="countPhoto"></p>
+	   <p class="single-content design grid-item" id="countDesign"></p>
+	   <p class="single-content development grid-item" id="countDev"></p> -->
 
 
-    {{#each this}}
-        <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>{{caption}}" href="{{link}}">
-      <img src="{{link}}" alt="{{title}} - {{caption}}" ></a>
-    {{/each}}
-    <script>
-      document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
-      document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
-      document.getElementById("countDesign").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.design').length - 1) + " design posts.";
-      document.getElementById("countDev").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.development').length - 1) + " development posts.";
-    </script>
-  </script>
+	   {{#each this}}
+	       <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>{{caption}}" href="{{link}}">
+	     <img src="{{link}}" alt="{{title}} - {{caption}}" ></a>
+	   {{/each}}
+	   <script>
+	     document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+	     document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+	     document.getElementById("countDesign").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.design').length - 1) + " design posts.";
+	     document.getElementById("countDev").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.development').length - 1) + " development posts.";
+	</script>
 </head>
-
 <body>
-  <script>
-      function resizeHeaderOnScroll() {
-        const distanceY = window.pageYOffset || document.documentElement.scrollTop,
-        shrinkOn = 200,
-        headerEl = document.getElementById('js-header');
+	<script>
+	     function resizeHeaderOnScroll() {
+	       const distanceY = window.pageYOffset || document.documentElement.scrollTop,
+	       shrinkOn = 200,
+	       headerEl = document.getElementById('js-header');
 
-        if (distanceY > shrinkOn) {
-          headerEl.classList.add("smaller");
-        } else {
-          headerEl.classList.remove("smaller");
-        }
-      }
+	       if (distanceY > shrinkOn) {
+	         headerEl.classList.add("smaller");
+	       } else {
+	         headerEl.classList.remove("smaller");
+	       }
+	     }
 
-      window.addEventListener('scroll', resizeHeaderOnScroll);
-  </script>
-
-    <header id="js-header">
-      <div class="container clearfix">
-        <h1 id="logo">bradley.dean.jones</h1>
-        <nav>
-          <div class="filters filter-button-group">
-
-              <a class="active" data-filter="*">all</a>
-              <a data-filter=".photography">photography</a>
-              <a data-filter=".design">design</a>
-              <a data-filter=".development">development</a>
-          </div>
-        </nav>
-      </div>
-    </header>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
-<div class="container" style="font-size: 30px;">
-  hello, my names bradley.<br />
-  photographer 📷 graphic designer @ gannett (USA Today Network) 🖥 twenty-four 👓 indianapolis 📍 photojournalism | BSU 🎓 mental health advocate 💊 coffee ☕️ sushi 🍣<br />
-  <a href="https://twitter.com/bbradleyjoness"  target="_blank"><i class="fab fa-twitter"></i></a>
-  <a href="https://www.instagram.com/bbradleyjoness"  target="_blank"><i class="fab fa-instagram"></i></a>
-</div>
-  <!-- Content -->
-  <div class="content grid">
-    <div id="items">Loading content...</div>
-  </div>
-  <!-- <div class="footer">fin</div> -->
-
-
-
-  <!-- <div class="container" style="font-size: 30px;">
+	     window.addEventListener('scroll', resizeHeaderOnScroll);
+	</script>
+	<header id="js-header">
+		<div class="container clearfix">
+			<h1 id="logo">bradley.dean.jones</h1>
+			<nav>
+				<div class="filters filter-button-group">
+					<a class="active" data-filter="*">all</a> <a data-filter=".photography">photography</a> <a data-filter=".design">design</a> <a data-filter=".development">development</a>
+				</div>
+			</nav>
+		</div>
+	</header><br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container" style="font-size: 30px;">
+		hello, my names bradley.<br>
+		photographer 📷 graphic designer @ gannett (USA Today Network) 🖥 twenty-four 👓 indianapolis 📍 photojournalism | BSU 🎓 mental health advocate 💊 coffee ☕️ sushi 🍣<br>
+		<a href="https://twitter.com/bbradleyjoness" target="_blank"><i class="fab fa-twitter"></i></a> <a href="https://www.instagram.com/bbradleyjoness" target="_blank"><i class="fab fa-instagram"></i></a>
+	</div><!-- Content -->
+	<div class="content grid">
+		<div id="items">
+			Loading content...
+		</div>
+	</div><!-- <div class="footer">fin</div> -->
+	<!-- <div class="container" style="font-size: 30px;">
     <center>fin.</center>
   </div> -->
-
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.js'>
+	</script>
+	<script src='https://imagesloaded.desandro.com/imagesloaded.pkgd.min.js'>
+	</script>
+	<script src="js/index.js">
+	</script>
+	<script type="text/javascript">
+	function romanize (num) {
+	if (!+num)
+	 return false;
+	var digits = String(+num).split(""),
+	   key    = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+	             "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+	             "","I","II","III","IV","V","VI","VII","VIII","IX"],
+	   roman  = "",
+	   i      = 3;
+	while (i--)
+	 roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+	return Array(+digits.join("") + 1).join("M") + roman;
+	}
+	var currentTime  = new Date();
+	var strRomanDate = romanize(currentTime.getFullYear());
+	document.write("<center style='font-size: calc(20px + .5vw);padding-bottom:10px;'>bradley dean jones &copy; " + strRomanDate +  "<\/center>");
+	</script>
 </body>
-
-</html>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.js'></script>
-<script src='https://imagesloaded.desandro.com/imagesloaded.pkgd.min.js'></script>
-
-
-
-    <script  src="js/index.js"></script>
-<script type="text/javascript">
-function romanize (num) {
-if (!+num)
-  return false;
-var digits = String(+num).split(""),
-    key    = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
-              "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
-              "","I","II","III","IV","V","VI","VII","VIII","IX"],
-    roman  = "",
-    i      = 3;
-while (i--)
-  roman = (key[+digits.pop() + (i * 10)] || "") + roman;
-return Array(+digits.join("") + 1).join("M") + roman;
-}
-var currentTime  = new Date();
-var strRomanDate = romanize(currentTime.getFullYear());
-document.write("<center style='font-size: calc(20px + .5vw);padding-bottom:10px;'>bradley dean jones &copy; " + strRomanDate +  "</center>");
-</script>
-
-
-
-</body>
-
 </html>
