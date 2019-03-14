@@ -3,237 +3,135 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>bradley.dean.jones</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-  <link rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
-  <link rel='stylesheet' href='css/style.css'>
-  <title>website v1</title>
+  <title>bradley dean jones . portfolio</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-<link rel='stylesheet' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
-<link rel='stylesheet' href='css/style.css'>
 
-<link rel="apple-touch-icon" sizes="57x57" href="assets/favicon.ico/apple-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="assets/favicon.ico/apple-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="assets/favicon.ico/apple-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="assets/favicon.ico/apple-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="assets/favicon.ico/apple-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="assets/favicon.ico/apple-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="assets/favicon.ico/apple-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="assets/favicon.ico/apple-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon.ico/apple-icon-180x180.png">
-<link rel="icon" type="image/png" sizes="192x192"  href="assets/favicon.ico/android-icon-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.ico/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon.ico/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.ico/favicon-16x16.png">
-<link rel="manifest" href="assets/favicon.ico/manifest.json">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="assets/favicon.ico/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css'>
 
+      <link rel="stylesheet" href="css/style.css">
+
+
+  <title>bdj</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script id="item-template" type="text/x-handlebars-template">
+<div class="grid-sizer"></div>
+<!--     <p class="single-content photography grid-item" id="countPhoto"></p>
+    <p class="single-content design grid-item" id="countDesign"></p>
+    <p class="single-content development grid-item" id="countDev"></p> -->
+
+
+    {{#each this}}
+<!--     <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>" href="{{link}}"> -->
+        <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>{{caption}}" href="{{link}}">
+      <img src="{{link}}" alt="{{title}} - {{caption}}" ></a>
+    {{/each}}
+    <script>
+      document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+
+      // document.write("&copy; " + strRomanDate);
+
+      document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+      document.getElementById("countDesign").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.design').length - 1) + " design posts.";
+      document.getElementById("countDev").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.development').length - 1) + " development posts.";
+    </script>
+  </script>
 </head>
 
 <body>
+  <script>
+      function resizeHeaderOnScroll() {
+        const distanceY = window.pageYOffset || document.documentElement.scrollTop,
+        shrinkOn = 200,
+        headerEl = document.getElementById('js-header');
 
-  <nav class="flex-nav">
-  <div class="container">
-    <div class="grid">
-      <div class="column-xs-9 column-md-8">
-        <a href="http://bradleyjones.co/"><p id="logo">bradley<span id="highlight">.dean</span>.jones</p></a>
-      </div>
-      <div class="column-xs-3 column-md-4">
-        <a href="#" class="toggle-nav">Menu <i class="ion-navicon-round"></i></a>
-        <ul>
-          <!-- <li><a href="#portfolio">portfolio</a></li> -->
-          <li><a href="https://instagram.com/shotbybradley/">instagram</a></li>
-          <li><a href="https://twitter.com/shotbybradley/">twitter</a></li>
-          <li><a href="assets/Resume.pdf" target="_blank">resume</a></li>
-          <li><a href="/portfolio">portfolio</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
-<main class="intro-section">
-  <div class="container">
-    <div class="grid">
-      <div class="column-xs-12">
-        <ul class="slider">
-          <li class="slider-item active">
-            <div class="grid vertical">
-              <div class="column-xs-12 column-md-2 hide-mobile">
-                <div class="intro">
-                  <a href="#">
-                    <h1 class="title"><span class="underline">about me</span></h1>
-                  </a>
-                </div>
-              </div>
-              <div class="column-xs-12 column-md-10">
-                <div class="image-holder">
-                  <img class="test" src="assets/bradleyjones.jpg">
-                </div>
-                <div class="grid">
-                  <div class="column-xs-12 column-md-9">
-                    <div class="intro show-mobile">
-                      <a href="#">
-                        <h1 class="title"><span class="underline">about me</span></h1>
-                      </a>
-                    </div>
-                    <p class="description">photographer 📷 graphic designer @ gannett (USA Today Network) 🖥 twenty-four 👓 indianapolis 📍 photojournalism | BSU 🎓 mental health advocate 💊 coffee ☕️ sushi 🍣</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <!-- <li class="slider-item">
-            <div class="grid vertical">
-              <div class="column-xs-12 column-md-2 hide-mobile">
-                <div class="intro">
-                  <a href="#">
-                    <h1 class="title"><span class="underline">featured post</span></h1>
-                  </a>
-                </div>
-              </div>
-              <div class="column-xs-12 column-md-10">
-                <div class="image-holder">
-                  <img src="https://source.unsplash.com/Pz3EHf-KJfc">
-                </div>
-                <div class="grid">
-                  <div class="column-xs-12 column-md-9">
-                    <div class="intro show-mobile">
-                      <a href="#">
-                        <h1 class="title"><span class="underline">featured post</span></h1>
-                      </a>
-                    </div>
-                    <p class="description">Kyoto is famous for its numerous classical Buddhist temples, gardens, imperial palaces, Shinto shrines and traditional wooden houses.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li> -->
-          <li class="slider-item">
-            <div class="grid vertical">
-              <div class="column-xs-12 column-md-2 hide-mobile">
-                <div class="intro">
-                  <a href="#portfolio">
-                     <h1 class="title"><span class="underline">latest work</span></h1>
-                  </a>
-                </div>
-              </div>
-              <div class="column-xs-12 column-md-10">
-                <div class="image-holder">
-                  <img src="assets/photography/052517_foxing.jpg">
-                </div>
-                <div class="grid">
-                  <div class="column-xs-12 column-md-9">
-                    <div class="intro show-mobile">
-                      <a href="#portfolio">
-                        <h1 class="title"><span class="underline">latest work</span></h1>
-                      </a>
-                    </div>
-                    <p class="description">Foxing in Concert - Digital Photography - 05.25.18</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-          <!-- <li class="slider-item">
-            <div class="grid vertical">
-              <div class="column-xs-12 column-md-2 hide-mobile">
-                <div class="intro">
-                  <a href="#">
-                    <h1 class="title"><span class="underline">featured article</span></h1>
-                  </a>
-                </div>
-              </div>
-              <div class="column-xs-12 column-md-10">
-                <div class="image-holder">
-                  <img src="https://source.unsplash.com/VmeOZQjTVGE">
-                </div>
-                <div class="grid">
-                  <div class="column-xs-12 column-md-9">
-                    <div class="intro show-mobile">
-                      <a href="#">
-                        <h1 class="title"><span class="underline">featured article</span></h1>
-                      </a>
-                    </div>
-                    <p class="description">Hokkaido, the northernmost of Japan’s main islands, is known for its volcanoes, natural hot springs ("onsen") and ski areas.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li> -->
-        </ul>
-      <div class="grid">
-        <div class="column-xs-12">
-          <div class="controls">
-              <a class="previous">
-                <i class="ion-ios-arrow-thin-left"></i>
-              </a>
-              <a class="next">
-                <i class="ion-ios-arrow-thin-right"></i>
-              </a>
-            </div>
+        if (distanceY > shrinkOn) {
+          headerEl.classList.add("smaller");
+        } else {
+          headerEl.classList.remove("smaller");
+        }
+      }
+
+      window.addEventListener('scroll', resizeHeaderOnScroll);
+  </script>
+
+    <header id="js-header">
+      <div class="container clearfix">
+        <h1 id="logo">bradley.dean.jones</h1>
+        <nav>
+          <div class="filters filter-button-group">
+
+              <a class="active" data-filter="*">all</a>
+              <a data-filter=".photography">photography</a>
+              <a data-filter=".design">design</a>
+              <a data-filter=".development">development</a>
           </div>
+        </nav>
       </div>
-    </div>
-  </div>
+    </header>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
-
-
-
-
-
-
-  <div class="heading" id="portfolio">
-  <h1>Portfolio</h1>
+<div class="container" style="font-size: 30px;">
+  hello, my names bradley.<br />
+  photographer 📷 graphic designer @ gannett (USA Today Network) 🖥 twenty-four 👓 indianapolis 📍 photojournalism | BSU 🎓 mental health advocate 💊 coffee ☕️ sushi 🍣<br />
+  <a href="https://twitter.com/bbradleyjoness"><i class="fab fa-twitter"></i></a>
+  <a href="https://www.instagram.com/bbradleyjoness"><i class="fab fa-instagram"></i></a>
 </div>
-
-<span class="down">&darr;</span>
-
-<ul class="allImages">
-  <li><a href="#0"><div class="image out"><div class="img_info">Inside the Snow<br>Digital Photography<br>01.15.19</div><br><span></span><img src="assets/photography/011519_snow.jpg" data-author="2"></div></a></li>
-  <li><a href="#0"><div class="image out"><div class="img_info">Foxing in Concert<br>Digital Photography<br>05.25.18</div><br><span></span><img src="assets/photography/052517_foxing.jpg" data-author="1"></div></a></li>
-  <li><a href="#0"><div class="image out"><div class="img_info">B&T Cardinal Moving Logo<br>Digital Design<br>10.12.17</div><br><span></span><img src="assets/design/101217_BTCardinalMoving.jpg" data-author="2"></div></a></li>
-  <li><a href="#0"><div class="image out"><div class="img_info">Dance (part 3)<br>Digital Photography<br>04.19.17</div><br><span></span><img src="assets/photography/041917_dance3.jpg" data-author="2"></div></a></li>
-  <li><a href="#0"><div class="image out"><div class="img_info">Sway (part 3)<br>Digital Photography<br>03.20.17</div><br><span></span><img src="assets/photography/032017_sway3.jpg" data-author="2"></div></a></li>
-  <li><a href="#0"><div class="image out"><div class="img_info">The Tunnel<br>Digital Photography<br>03.06.17</div><br><span></span><img src="assets/photography/030617_TheTunnel.jpg" data-author="2"></div></a></li>
-  <li><a href="#0"><div class="image out"><div class="img_info">Legs<br>Digital Photography<br>02.16.17</div><br><span></span><img src="assets/photography/021617_legs.jpg" data-author="2"></div></a></li>
-  <!-- <li><a href="#0"><div class="image out"><div class="img_info">TITLETITLETITLE<br>TYPETYPETYPE<br>DATEDATEDATE</div><br><span></span><img src="LINKLINKLINKLINKLINKLINK" data-author="2"></div></a></li> -->
-</ul>
-
-<div class="fin"><span>fin.</span></div>
-
-<section href="#0" class="modal" data-click-attribute="0">
-  <a class="modal-back" id="#back"></a>
-  <div class="modal-image"><img src=""></div>
-  <div class="copyright">&copy; bradley dean jones 2018<a id="author" href="#0" target="_blank"></a></div>
-</section>
+  <!-- Content -->
+  <div class="content grid">
+    <div id="items">Loading content...</div>
+  </div>
+  <!-- <div class="footer">fin</div> -->
 
 
 
+  <!-- <div class="container" style="font-size: 30px;">
+    <center>fin.</center>
+  </div> -->
+
+</body>
+
+</html>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.js'></script>
+<script src='https://imagesloaded.desandro.com/imagesloaded.pkgd.min.js'></script>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-</main>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js'></script>
-
-
-
-    <script  src="js/script.js"></script>
+    <script  src="js/index.js"></script>
+<script type="text/javascript">
+function romanize (num) {
+if (!+num)
+  return false;
+var digits = String(+num).split(""),
+    key    = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+              "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+              "","I","II","III","IV","V","VI","VII","VIII","IX"],
+    roman  = "",
+    i      = 3;
+while (i--)
+  roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+return Array(+digits.join("") + 1).join("M") + roman;
+}
+var currentTime  = new Date();
+var strRomanDate = romanize(currentTime.getFullYear());
+document.write("<center style='font-size: calc(20px + .5vw);padding-bottom:10px;'>bradley dean jones &copy; " + strRomanDate +  "</center>");
+</script>
 
 
 

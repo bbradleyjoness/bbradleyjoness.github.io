@@ -15,11 +15,11 @@ $(document).ready(function() {
     }
   );
 
-  $(".filter-button-group").on("click", "li", function() {
+  $(".filter-button-group").on("click", "a", function() {
     var filterValue = $(this).attr("data-filter");
     $(".grid").isotope({ filter: filterValue });
 
-    $(".filter-button-group li").removeClass("active");
+    $(".filter-button-group a").removeClass("active");
     $(this).addClass("active");
   });
 
