@@ -294,7 +294,17 @@ a:hover {
   width: 100%;
   margin: 0 auto;
 }
-
+.about {
+  font-size: 30px;
+  color:#333
+}
+.about a {
+  color: #555
+}
+.about span {
+  font-size: 20px;
+  padding: 10px;
+}
 #main {
   min-height: 500px;
   padding-top: 150px;
