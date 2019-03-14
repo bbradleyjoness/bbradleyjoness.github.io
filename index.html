@@ -19,21 +19,17 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script id="item-template" type="text/x-handlebars-template">
 <div class="grid-sizer"></div>
-    <p class="single-content photography grid-item" id="countPhoto"></p>
+<!--     <p class="single-content photography grid-item" id="countPhoto"></p>
     <p class="single-content design grid-item" id="countDesign"></p>
-    <p class="single-content development grid-item" id="countDev"></p>
+    <p class="single-content development grid-item" id="countDev"></p> -->
 
 
     {{#each this}}
-<!--     <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>" href="{{link}}"> -->
         <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>{{caption}}" href="{{link}}">
       <img src="{{link}}" alt="{{title}} - {{caption}}" ></a>
     {{/each}}
     <script>
       document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
-
-      // document.write("&copy; " + strRomanDate);
-
       document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
       document.getElementById("countDesign").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.design').length - 1) + " design posts.";
       document.getElementById("countDev").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.development').length - 1) + " development posts.";
