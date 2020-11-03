@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="title" content="bradley dean jones">
+	<meta name="description" content="hello, I'm a developer, designer, and photographer. I like music and coffee.">
+	<meta name="keywords" content="bradley dean jones, bradley, dean, jones, photo, photography, photos, photography, indiana, indianapolis, picture, pictures, indy, indie, indianapolis photographer, developer, development, design, designer, graphic designer, graphic, graphics, logo, logos, tech, technology">
+	<meta name="robots" content="index, follow">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="language" content="English">
+	<meta name="revisit-after" content="30 days">
+	<meta name="author" content="bradley dean jones">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="apple-touch-icon" sizes="57x57" href="assets/favicon.ico/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="assets/favicon.ico/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/favicon.ico/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/favicon.ico/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="assets/favicon.ico/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="assets/favicon.ico/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="assets/favicon.ico/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="assets/favicon.ico/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="assets/favicon.ico/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="assets/favicon.ico/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon.ico/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon.ico/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon.ico/favicon-16x16.png">
+	<link rel="manifest" href="assets/favicon.ico/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="assets/favicon.ico/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	<title>bradley dean jones</title>
+	<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+	<link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css' rel='stylesheet'>
+	<link href='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css' rel='stylesheet'>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/darkmode.css" rel="stylesheet">
+	<title>bdj</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js" type="text/javascript">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript">
+	</script>
+	<script id="item-template" type="text/x-handlebars-template">
+	<div class="grid-sizer"></div>
+	<!--     <p class="single-content photography grid-item" id="countPhoto"></p>
+	   <p class="single-content design grid-item" id="countDesign"></p>
+	   <p class="single-content development grid-item" id="countDev"></p> -->
+
+
+	   {{#each this}}
+	       <a data-fancybox="gallery" class="single-content {{tags_class}} grid-item" data-caption="<p>{{title}}<small>{{date}}</small><span>{{location}} - {{tags}}</span></p>{{caption}}" href="{{link}}">
+	     <img src="{{link}}" alt="{{title}} - {{caption}}" ></a>
+	   {{/each}}
+	   <script>
+	     document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+	     document.getElementById("countPhoto").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.photography').length - 1) + " photography posts.";
+	     document.getElementById("countDesign").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.design').length - 1) + " design posts.";
+	     document.getElementById("countDev").innerHTML = "<p>TITLE</p> There are " + (document.querySelectorAll('.development').length - 1) + " development posts.";
+	</script>
+</head>
+<body>
+	<script>
+	     function resizeHeaderOnScroll() {
+	       const distanceY = window.pageYOffset || document.documentElement.scrollTop,
+	       shrinkOn = 200,
+	       headerEl = document.getElementById('js-header');
+
+	       if (distanceY > shrinkOn) {
+	         headerEl.classList.add("smaller");
+	       } else {
+	         headerEl.classList.remove("smaller");
+	       }
+	     }
+
+	     window.addEventListener('scroll', resizeHeaderOnScroll);
+	</script>
+  <script type="text/javascript">
+$(document).ready(function(){
+	$.getJSON('https://api.sheety.co/3fd8fdb1-8e88-47f8-a09a-b72992ac5210', function(data) {
+		var template = Handlebars.compile($('#item-template2').html())
+		$('#items2').html(template(data))
+	})
+})
+</script>
+<script id="item-template2" type="text/x-handlebars-template">
+<ul>
+	{{#each this}}
+    <div class="container about">
+      {{intro}}<br>
+      {{about}}<br>
+      <a href="https://twitter.com/{{twitter}}" target="_blank"><i class="fab fa-twitter"></i></a>
+      <span>•</span>
+      <a href="https://www.instagram.com/{{instagram}}" target="_blank"><i class="fab fa-instagram"></i></a>
+      <span>•</span>
+      <a href="{{resume}}" target="_blank"><i class="far fa-file"></i></a>
+      <span>•</span>
+            <a href="mailto:{{email}}" target="_blank"><i class="far fa-envelope"></i></a>
+    </div>
+	{{/each}}
+</ul>
+</script>
+	<header id="js-header">
+		<div class="container clearfix">
+			<h1 id="logo">bradley.dean.jones</h1>
+			<nav>
+				<div class="filters filter-button-group">
+					<a class="active" data-filter="*">all</a> <a data-filter=".photography">photography</a> <a data-filter=".design">design</a> <a data-filter=".development">development</a>
+				</div>
+			</nav>
+		</div>
+	</header><br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<div id="items2">
+		<!-- Loading theme parks... -->
+	</div>
+
+
+	<div class="content grid">
+		<div id="items">
+			<!-- Loading content... -->
+		</div>
+	</div><!-- <div class="footer">fin</div> -->
+	<!-- <div class="container" style="font-size: 30px;">
+    <center>fin.</center>
+  </div> -->
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js'>
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.6/jquery.fancybox.min.js'>
+	</script>
+	<script src='https://imagesloaded.desandro.com/imagesloaded.pkgd.min.js'>
+	</script>
+	<script src="js/index.js">
+	</script>
+	<script type="text/javascript">
+	function romanize (num) {
+	if (!+num)
+	 return false;
+	var digits = String(+num).split(""),
+	   key    = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+	             "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+	             "","I","II","III","IV","V","VI","VII","VIII","IX"],
+	   roman  = "",
+	   i      = 3;
+	while (i--)
+	 roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+	return Array(+digits.join("") + 1).join("M") + roman;
+	}
+	var currentTime  = new Date();
+	var strRomanDate = romanize(currentTime.getFullYear());
+	document.write("<center style='font-size: calc(20px + .5vw);padding-bottom:10px;'>bradley dean jones &copy; " + strRomanDate +  "<\/center>");
+	</script>
+</body>
+</html>
