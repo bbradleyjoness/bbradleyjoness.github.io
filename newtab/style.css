@@ -1,0 +1,129 @@
+body {
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+  letter-spacing: .1em;
+
+  background-color: rgb(243, 244, 245);
+  /* font-family: 'Amatic SC', cursive; */
+
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.5em;
+}
+
+.over-container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+
+  height: 100vh;
+}
+
+.container {
+  align-self: center;
+}
+
+.search-container {
+  margin-bottom: 15px;
+
+  justify-self: center;
+}
+
+.search {
+  width: 60%;
+  height: 46px;
+  color: rgb(174, 180, 184);
+  border: none;
+  border-bottom: 3px solid rgb(86, 94, 101);
+  background-color: rgb(243, 244, 245);
+
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.search:focus {
+  outline: none;
+}
+
+.search::placeholder {
+  color: rgb(174, 180, 184);
+}
+
+input {
+  border: none;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  min-width: auto;
+}
+
+.tiles {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+}
+
+#btnSU {
+  padding: 7px 30px;
+  text-decoration: none;
+  color: red  !important;
+  background-color: blue !important;
+}
+
+.button {
+  padding: 7px 30px;
+  text-decoration: none;
+  color: rgb(218, 220, 222);
+  background-color: rgb(86, 94, 101);
+}
+
+.tile1 {
+  padding: 7px 30px;
+
+  color: rgb(86, 94, 101);
+  background: rgb(149, 199, 174);
+}
+
+.tile2 {
+  padding: 7px 30px;
+
+  color: rgb(86, 94, 101);
+  background-color: rgb(199, 174, 149);
+}
+
+.tile3 {
+  padding: 7px 30px;
+
+  color: rgb(86, 94, 101);
+  background-color: rgb(199, 149, 174);
+}
+
+.tile4 {
+  padding: 7px 30px;
+
+  color: rgb(86, 94, 101);
+  background-color: rgb(149, 174, 199);
+}
+
+.tile5 {
+  padding: 7px 30px;
+
+  color: rgb(86, 94, 101);
+  background-color: rgb(174, 199, 149);
+}
+
+.tile6 {
+  padding: 7px 30px;
+
+  color: rgb(86, 94, 101);
+  background-color: rgb(174, 149, 199);
+}
+
+a:hover {
+  background-color: #343c43;
+}
