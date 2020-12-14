@@ -46,13 +46,94 @@
       tr {
         height: 50px;
       }
+
+/*  –––––––––
+– popup css –
+–––––––––  */
+
+    indent {
+      margin-left: 24px;
+    }
+
+
+  .button69 {
+    font-size: 2em;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .overlay69 {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    font-family: Tahoma, Arial, sans-serif;
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .overlay69:target {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .popup69 {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    font-size: 2em;
+    border-radius: 5px;
+    width: 40%;
+    position: relative;
+    transition: all 5s ease-in-out;
+  }
+
+  .popup69 h2 {
+    margin-top: 0;
+    color: #333;
+  }
+
+    .popup69 a {
+      color: #333;
+      line-height: 2;
+      text-decoration: none;
+    }
+
+  .popup69 .close69 {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup69 .close69:hover {
+    color: #06D85F;
+  }
+  .popup69 .content69 {
+    max-height: 30%;
+    margin-top:-40px;
+    overflow: auto;
+  }
+
+  @media screen and (max-width: 700px){
+    .popup69{
+      width: 70%;
+    }
+  }
   </style>
+
+
 </head>
 <body onload="document.searchform.q.focus();">
   <div class="over-container">
     <div class="container">
-          <!-- <label id="lblGreetings" style="font-size:80px;"></label><br />
-          <span style="float:left;margin-left: 300px;font-size: 50px;"><div id="hourminutesecond"></div></span><span style="float:right; margin-right: 300px; font-size: 50px;"><div id="daymonthyear"></div></span><br /><br /><br /> -->
+          <!-- <label id="lblGreetings" style="font-size:80px;"></label><br /> -->
+          <span style="float:left;margin-left: 300px;font-size: 50px;"><div id="hourminutesecond"></div></span><span style="float:right; margin-right: 300px; font-size: 50px;"><div id="daymonthyear"></div></span><br /><br /><br />
       <div class="search-container">
         <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_self">
           <input autocomplete="true" enableAutoComplete="true" class="form-control search" name="q" placeholder="search" required="required" type="text">
@@ -133,6 +214,26 @@
           <a href="https://www.ebay.com" class="button"><i class="fab fa-ebay"></i> ebay</a>
           <a href="https://www.etsy.com/" class="button"><i class="fab fa-etsy"></i> etsy</a>
         </div>
+      </div>
+      <a class="button69" href="#popup169">💼</a>
+      <div id="popup169" class="overlay69">
+      	<div class="popup69">
+      		<h2>work links</h2>
+      		<a class="close69" href="#">&times;</a>
+      		<div class="content69">
+            <a href="http://gannett.okta.com/" target="_self">OKTA</a><br>
+            <indent><a href="https://gannett.okta.com/home/bookmark/0oap8l324QK7lgl3s1t6/2557" target="_self">dayforce</a><br>
+            <indent><a href="https://adapt.giadc.io/" target="_self">adapt</a><br>
+            <indent><a href="https://gannett.celtra.com/" target="_self">celtra</a><br>
+            <indent><a href="https://avenue.giadc.io/" target="_self">avenue</a><br>
+            <indent><indent><a href="https://tags.giadc.io/dragondrop" target="_self">dragondrop</a><br>
+            <indent><indent><a href="https://wiki.giadc.io/giadc_tools_resources/hold_messages/digital_holds" target="_self">holds</a><br>
+            <a href="http://www.gettyimages.com/" target="_self">getty images</a><br>
+            <a href="https://drive.google.com/drive/u/1/folders/1LShlyKJ5v3RSzf2Xi2LYDEkOxdx9c4k0" target="_self">google drive folder</a><br>
+            <a href="https://gannett-my.sharepoint.com/personal/khinton_gannett_com/_layouts/15/Authenticate.aspx?Source=%2Fpersonal%2Fkhinton_gannett_com%2F_layouts%2F15%2Fguestaccess%2Easpx%3Fe%3DfGvnK6%26share%3DEq1N0Hw01l5Bm869El1R75IBghMbWOuL_x-wv5BT0bm1sw" target="_self">kyle's cloud folder</a><br>
+      <!--       <a href="aaaaaaaa" target="_self">aaaaaaa</a><br> -->
+      		</div>
+      	</div>
       </div>
       <!-- <div style="text-align: left;font-size:36px;opacity:.25">
         • AUTOFILL ADDRESSES I ALREADY HAVE ON HERE<br />
