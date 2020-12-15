@@ -47,19 +47,26 @@
         height: 50px;
       }
 
+
+
+.condition {
+  font-size: 55px;
+  font-weight: 500;
+}
 /*  –––––––––
 – popup css –
 –––––––––  */
 
     indent {
-      margin-left: 24px;
+      margin-left: 30px;
     }
 
 
   .button69 {
-    font-size: 2em;
+    font-size: 1.5em;
     text-decoration: none;
     cursor: pointer;
+    color: white;
   }
 
   .overlay69 {
@@ -69,7 +76,6 @@
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.7);
-    font-family: Tahoma, Arial, sans-serif;
     transition: opacity 500ms;
     visibility: hidden;
     opacity: 0;
@@ -88,6 +94,7 @@
     width: 40%;
     position: relative;
     transition: all 5s ease-in-out;
+    text-align: left;
   }
 
   .popup69 h2 {
@@ -95,11 +102,22 @@
     color: #333;
   }
 
-    .popup69 a {
-      color: #333;
-      line-height: 2;
+  .popup69 a {
+    color: #333;
+    line-height: 1.75;
+    text-decoration: none;
+  }
+    .popup69 a:hover {
+      color: black;
       text-decoration: none;
+      font-weight: bold;
+      letter-spacing: -1.5px;
+      background: none;
     }
+      /* .popup69 a:hover:before {
+        content: "⇨";
+        margin-left: -50.5px;
+      } */
 
   .popup69 .close69 {
     position: absolute;
@@ -117,7 +135,6 @@
   .popup69 .content69 {
     max-height: 30%;
     margin-top:-40px;
-    overflow: auto;
   }
 
   @media screen and (max-width: 700px){
@@ -132,8 +149,18 @@
 <body onload="document.searchform.q.focus();">
   <div class="over-container">
     <div class="container">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.4/vue.min.js"></script>
+
+
+
+
           <!-- <label id="lblGreetings" style="font-size:80px;"></label><br /> -->
-          <span style="float:left;margin-left: 300px;font-size: 50px;"><div id="hourminutesecond"></div></span><span style="float:right; margin-right: 300px; font-size: 50px;"><div id="daymonthyear"></div></span><br /><br /><br />
+          <div style="margin-bottom:-30px;">
+            <span style="float:left;margin-left: 300px;font-size: 50px;"><div id="hourminutesecond"></div></span>
+              <span style="float:right; margin-right: 300px; font-size: 50px;"><div id="daymonthyear"></div></span><br /><br /><br />
+          </div>
+<div id="app"><display v-bind:res="weatherRes"></display></div><br>
       <div class="search-container">
         <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_self">
           <input autocomplete="true" enableAutoComplete="true" class="form-control search" name="q" placeholder="search" required="required" type="text">
@@ -141,32 +168,32 @@
       </div>
       <div class="menu">
           <div class="tiles">
-            <div class="tile1"><a href="#" class="imgLINK" onclick="open_win()"><img src="https://i.imgur.com/5WKXdIi.jpg" style="width: 300px;height: 295px;object-fit: cover;     object-position: 30% -75px;" /></a>
+            <div class="tile1"><a href="#" class="imgLINK" onclick="open_win()"><img src="https://i.imgur.com/5WKXdIi.jpg" style="width: 300px;height: 333px;object-fit: cover;     object-position: 30% -75px;" /></a>
               <div class="tg-wrap"><table class="tg">
               <tbody>
                 <tr>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/baddies/top/" class="button newBTN">🚫</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/memes/top/" class="button newBTN">😂</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/news/top/" class="button newBTN">🗞</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/second" class="button newBTN">🥈</a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/baddies/top/" class="button newBTN"><i class="fas fa-skull-crossbones"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/memes/top/" class="button newBTN"><i class="fas fa-laugh-squint"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/news/top/" class="button newBTN"><i class="fas fa-newspaper"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/second" class="button newBTN"><i class="fas fa-box"></i></a></th>
                 </tr>
                 <tr>
-                <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/lifestyle/hot/" class="button newBTN">🧬</a></th>
-                <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/indy/top/?sort=top&t=day" class="button newBTN">🏠</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/3d/top/" class="button newBTN">🖨</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/products/top/" class="button newBTN">🛒</a></th>
+                <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/lifestyle/hot/" class="button newBTN"><i class="fas fa-heartbeat"></i></a></th>
+                <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/indy/top/?sort=top&t=day" class="button newBTN"><i class="fas fa-city"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/3d/top/" class="button newBTN"><i class="fas fa-dice-d6"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/products/top/" class="button newBTN"><i class="fas fa-barcode"></i></a></th>
                 </tr>
                 <tr>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/gaming/top/" class="button newBTN">🕹</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/vr/top/" class="button newBTN">🖲</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/r/Stadia/top/" class="button newBTN">🎮</a></th>
-                    <th class="tg-0lax"><a href="https://www.reddit.com/r/AppleArcade/about/unmoderated/" class="button newBTN"></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/gaming/top/" class="button newBTN"><i class="fas fa-dice"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/vr/top/" class="button newBTN"><i class="fas fa-vr-cardboard"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/r/Stadia/top/" class="button newBTN"><i class="fas fa-gamepad"></i></a></th>
+                    <th class="tg-0lax"><a href="https://www.reddit.com/r/AppleArcade/about/unmoderated/" class="button newBTN"><i class="fab fa-apple"></i></a></th>
                 </tr>
                 <tr>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/tech/top/" class="button newBTN">👨🏻‍💻</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/r/shortcuts/top/" alt="shortcuts" class="button newBTN">🤖</a></th>
-                  <th class="tg-0lax"><a href="https://www.reddit.com/r/iOSBeta/top/" alt="iOSBeta" class="button newBTN">🆕</a></th>
-                    <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/staywoke/top/?t=week" class="button newBTN">👽</a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/tech/top/" class="button newBTN"><i class="fas fa-memory"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/r/shortcuts/top/" alt="shortcuts" class="button newBTN"><i class="fas fa-robot"></i></a></th>
+                  <th class="tg-0lax"><a href="https://www.reddit.com/r/iOSBeta/top/" alt="iOSBeta" class="button newBTN"><i class="fas fa-download"></i></a></th>
+                    <th class="tg-0lax"><a href="https://www.reddit.com/user/bbradleyjoness/m/staywoke/top/?t=week" class="button newBTN"><i class="fas fa-rocket"></i></a></th>
                 </tr>
               </tbody>
               </table></div>
@@ -174,7 +201,7 @@
           </div>
         <div class="tiles">
           <div class="tile2">social</div>
-          <a href="https://www.reddit.com" class="button"><i class="fab fa-reddit"></i> reddit</a>
+          <a href="https://www.reddit.com" class="button"><i class="fab fa-reddit-alien"></i> reddit</a>
           <a href="https://feedly.com" class="button"><i class="fas fa-rss"></i> feedly</a>
           <a href="https://www.youtube.com" class="button"><i class="fab fa-youtube"></i> youtube</a>
           <a href="https://www.facebook.com" class="button"><i class="fab fa-facebook"></i> facebook</a>
@@ -215,7 +242,7 @@
           <a href="https://www.etsy.com/" class="button"><i class="fab fa-etsy"></i> etsy</a>
         </div>
       </div>
-      <a class="button69" href="#popup169">💼</a>
+      <a class="button69" href="#popup169"><i class="fas fa-bread-slice"></i></a>
       <div id="popup169" class="overlay69">
       	<div class="popup69">
       		<h2>work links</h2>
@@ -229,6 +256,7 @@
             <indent><indent><a href="https://tags.giadc.io/dragondrop" target="_self">dragondrop</a><br>
             <indent><indent><a href="https://wiki.giadc.io/giadc_tools_resources/hold_messages/digital_holds" target="_self">holds</a><br>
             <a href="http://www.gettyimages.com/" target="_self">getty images</a><br>
+            <a href="http://xahlee.info/comp/unicode_arrows.html" target="_self">arrows ⇦</a><br>
             <a href="https://drive.google.com/drive/u/1/folders/1LShlyKJ5v3RSzf2Xi2LYDEkOxdx9c4k0" target="_self">google drive folder</a><br>
             <a href="https://gannett-my.sharepoint.com/personal/khinton_gannett_com/_layouts/15/Authenticate.aspx?Source=%2Fpersonal%2Fkhinton_gannett_com%2F_layouts%2F15%2Fguestaccess%2Easpx%3Fe%3DfGvnK6%26share%3DEq1N0Hw01l5Bm869El1R75IBghMbWOuL_x-wv5BT0bm1sw" target="_self">kyle's cloud folder</a><br>
       <!--       <a href="aaaaaaaa" target="_self">aaaaaaa</a><br> -->
@@ -251,9 +279,9 @@ var date = new Date(),
     year = date.getFullYear(),
     month = date.getMonth(),
     day = date.getUTCDate(),
-    months = [ "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    months = [ "January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-document.getElementById('daymonthyear').innerHTML = day + " " + months[month] + ", " + year;
+document.getElementById('daymonthyear').innerHTML = months[month] + " " + day;
 
 // =====================================
 // Get Time
@@ -302,5 +330,75 @@ setInterval(newTime, 1000);
 
     document.getElementById('lblGreetings').innerHTML =
         '<b>' + greet + '</b>';
+</script>
+<script>
+Vue.component('display', {
+  props: ['res'],
+  template: `
+
+      <div class="condition">
+
+          <div style="display:none;">{{ res.name }}</div>
+        {{ temperature }}°F &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ res.weather[0].description }}
+      </div>
+
+   `,
+   computed: {
+    temperature(){
+      //Remove decimals on temperature value
+      var temp = this.res.main.temp,
+          noDecimals = temp.toFixed();
+
+      return noDecimals;
+    }
+  }
+});
+
+
+
+
+/*******************************************
+ * ROOT COMPONENT
+ *******************************************/
+var app = new Vue({
+  el: '#app',
+  data: {
+    dataApi: 'aae97860de78632108ecc73036d6d17c',
+    cityName: 'indianapolis',
+    lang: 'en',
+    weatherRes: null
+  },
+
+  // GET DATA WHEN MOUNTED
+  mounted(){
+    this.performAJAX();
+  },
+
+  // METHODS
+  methods: {
+    // SEARCH A NEW CITY
+    searchcity(city){
+      this.cityName = city;
+      var ctx = this;
+      ctx.performAJAX();
+    },
+
+    // GET WEATHER DATA
+    performAJAX(){
+      var ctx = this;
+
+      axios.get('https://api.openweathermap.org/data/2.5/weather?q=' +
+                ctx.cityName + '&units=imperial&lang=' +
+                ctx.lang + '&APPID=' + ctx.dataApi )
+      .then(function (response) {
+        ctx.weatherRes = response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
 </script>
 </html>
