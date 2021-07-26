@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="darkmode.css">
   <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Bai+Jamjuree|Rajdhani&amp;subset=latin-ext" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
   <script type="text/javascript">
   function open_win() {
     window.open("https://www.reddit.com/user/bbradleyjoness/m/baddies/top/","_self")
@@ -177,7 +179,7 @@
       </div>
       <div class="menu">
           <div class="tiles">
-            <div class="tile1"><a href="#" class="imgLINK" onclick="open_win()"><img src="https://i.imgur.com/5WKXdIi.jpg" style="width: 300px;height: 333px;object-fit: cover;     object-position: 30% -75px;" /></a>
+            <div class="tile1"><img id='random' style="width: 300px;height: 333px;object-fit: cover;" >
               <div class="tg-wrap"><table class="tg">
               <tbody>
                 <tr>
@@ -224,7 +226,7 @@
         </div>
         <div class="tiles">
           <div class="tile3">bills</div>
-          <a href="https://signin.simple.com" class="button"><i class="fas fa-piggy-bank"></i> simple</a>
+          <a href="https://www.bbvausa.com" class="button"><i class="fas fa-piggy-bank"></i> bbva bank</a>
           <a href="https://www.chase.com" class="button"><i class="far fa-credit-card"></i> chase</a>
           <a href="https://www.paypal.com/us/home" class="button"><i class="fab fa-cc-paypal"></i> paypal</a>
           <a href="https://navient.com" class="button"><i class="fas fa-user-graduate"></i> navient</a>
@@ -263,13 +265,14 @@
       		<div class="content69">
             <a href="http://gannett.okta.com/" target="_self">OKTA</a><br>
             <indent><a href="https://gannett.okta.com/home/bookmark/0oap8l324QK7lgl3s1t6/2557" target="_self">dayforce</a><br>
-            <indent><a href="https://adapt.giadc.io/?page[number]=1&page[size]=20&filter[combined]=bradley" target="_self">adapt</a><br>
+            <indent><a href='https://adapt.giadc.io/?page[number]=1&page[size]=20&filter[combined]=bradley' target="_self">adapt</a><br>
             <indent><a href="https://gannett.celtra.com/" target="_self">celtra</a><br>
             <indent><a href="https://avenue.giadc.io/" target="_self">avenue</a><br>
             <indent><indent><a href="https://tags.giadc.io/dragondrop" target="_self">dragondrop</a><br>
             <indent><indent><a href="https://wiki.giadc.io/giadc_tools_resources/hold_messages/digital_holds" target="_self">holds</a><br>
             <a href="http://images.google.com/" target="_self">google images</a><br>
             <a href="http://www.gettyimages.com/" target="_self">getty images</a><br>
+            <a href="https://ezgif.com/webp-to-png" target="_self">WEBP to PNG</a><br>
             <a href="http://xahlee.info/comp/unicode_arrows.html" target="_self">arrows ⇦</a><br>
             <a href="https://drive.google.com/drive/u/1/folders/1LShlyKJ5v3RSzf2Xi2LYDEkOxdx9c4k0" target="_self">google drive folder</a><br>
             <a href="https://gannett-my.sharepoint.com/personal/khinton_gannett_com/_layouts/15/Authenticate.aspx?Source=%2Fpersonal%2Fkhinton_gannett_com%2F_layouts%2F15%2Fguestaccess%2Easpx%3Fe%3DfGvnK6%26share%3DEq1N0Hw01l5Bm869El1R75IBghMbWOuL_x-wv5BT0bm1sw" target="_self">kyle's cloud folder</a><br>
@@ -418,5 +421,23 @@ var app = new Vue({
     }
   }
 });
+
+
+
+
+
+// REFRESH PIC //
+
+var image = new Array ();
+image[0] = "https://i.imgur.com/5WKXdIi.jpg";
+image[1] = "https://i.imgur.com/TT4tvwy.jpg";
+image[2] = "https://i.imgur.com/TzMQ6u4.jpg";
+image[3] = "https://i.imgur.com/l6ZwEun.jpg";
+image[4] = "https://i.imgur.com/E6NtqEb.jpg";
+// image[111111] = "AAAAAAA";
+var size = image.length
+var x = Math.floor(size*Math.random())
+
+$('#random').attr('src',image[x]);
 </script>
 </html>
