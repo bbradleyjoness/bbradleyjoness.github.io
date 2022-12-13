@@ -157,7 +157,7 @@
 
 
 </head>
-<body onload="document.searchform.q.focus();">
+<body>
   <div class="over-container">
     <div class="container">
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"></script>
@@ -173,8 +173,8 @@
           </div>
 <div id="app"><display v-bind:res="weatherRes"></display></div><br>
       <div class="search-container">
-        <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_self">
-          <input autocomplete="true" enableAutoComplete="true" class="form-control search" name="q" placeholder="search" required="required" type="text">
+        <form action='https://adapt.giadc.io/' class="searchform" method="get" name="searchform" target="_self">
+            <input type="text" autocomplete="true" enableAutoComplete="true" class="form-control search" name="filter[combined]=" id="searchbox" placeholder="search" required="required" type="text">
         </form>
       </div>
       <div class="menu">
@@ -266,7 +266,8 @@
             <a href="http://gannett.okta.com/" target="_self">OKTA</a><br>
             <indent><a href="https://gannett.okta.com/home/bookmark/0oap8l324QK7lgl3s1t6/2557" target="_self">dayforce</a><br>
             <indent><a href="https://avenue.giadc.io/" target="_self">avenue</a><br>
-            <indent><indent><a href='https://adapt.giadc.io/?page[number]=1&page[size]=20&filter[combined]=bradley' target="_self">adapt</a><br>
+            <!-- <indent><indent><a href='https://adapt.giadc.io/?page[number]=1&page[size]=20&filter[combined]=bradley' target="_self">adapt</a><br> -->
+            <indent><indent><a href='https://adapt.giadc.io/' target="_self">adapt</a><br>
             <indent><indent><a href="https://tags.giadc.io/dragondrop" target="_self">dragondrop</a><br>
             <indent><indent><a href="https://gannett.celtra.com/" target="_self">celtra</a><a href="https://wiki.designiq.com/giadc_sop/digital/celtra" style="font-size: 16px;" target="_self">wiki</a><br>
             <indent><indent><a href="https://pro.beefree.io/" target="_self">bee pro</a><a href="https://wiki.giadc.io/giadc_sop/digital/bee_pro" style="font-size: 16px;" target="_self">wiki</a><br>
@@ -421,7 +422,11 @@ var app = new Vue({
 });
 
 
+// search load //
 
+var input = document.getElementById('searchbox');
+input.focus();
+input.select();
 
 
 // REFRESH PIC //
