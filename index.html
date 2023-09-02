@@ -2,23 +2,404 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>bdj – coming soon</title>
-    <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
-    <script src="script.js"></script>
+    <title>bradley dean jones</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/images/site.webmanifest">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.3/isotope.pkgd.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/js/lightbox.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/css/lightbox.min.css">
+    <style media="screen">
+      .wrapper {
+        padding: 0 calc(50% - 600px);
+      }
+
+      .grid-item {
+        width: 375px;
+        margin: 5px !important;
+      }
+
+      .grid-sizer {
+        width: 375px;
+      }
+    </style>
+
+    <style media="screen">
+      @import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --accent: #00b8ff;
+        --dark-grey: #282a2b;
+        --light-grey: #8d98a1;
+      }
+
+      body {
+        font-family: "Work Sans", sans-serif;
+        font-weight: regular;
+        color: var(--light-grey);
+      }
+
+      .portfolio-container {
+        width: 1134px;
+        max-width: 100%;
+        margin: 0px auto;
+        padding: 1.5em;
+      }
+
+      .hero {
+        height: 860px;
+        display: grid;
+        grid-template-columns: repeat(12, minmax(10px, 1fr));
+        grid-column-gap: 12px;
+      }
+
+      .hero--image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        grid-column: 1 / span 5;
+        padding: 100px 0;
+      }
+
+      .hero--bio {
+        grid-column: 7 / span 6;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      h1 {
+        font-size: 4rem;
+        color: var(--dark-grey);
+        margin-bottom: 0.785em;
+        position: relative;
+      }
+
+      h1::before {
+        content: "";
+        width: 100px;
+        height: 4px;
+        position: absolute;
+        background: #333;
+        left: -135px;
+        top: 30px;
+      }
+
+      h3 {
+        font-size: 2.2rem;
+      }
+
+      .basic-info {
+        font-size: 1.5rem;
+        line-height: 155%;
+        padding-block: 2em;
+      }
+
+      nav {
+        display: flex;
+        justify-content: flex-start;
+      }
+
+      .nav--btn {
+        text-align: center;
+        max-width: 100px;
+        display: inline;
+        text-decoration: none;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.725rem;
+        padding: 0.785em 2em;
+        border: 1px solid var(--light-grey);
+        border-radius: 100px;
+        width: 100%;
+        color: #999;
+        margin-right: 12px;
+      }
+
+      .nav--btn:hover {
+        color: black;
+        border: 1px solid black;
+      }
+
+      .project-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-bottom: 5em;
+        gap: 4em;
+      }
+
+      .project-thumbnail {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        transition: 0.2s ease;
+        transition-property: all;
+        transition-property: transform;
+      }
+
+      .project-thumbnail:hover {
+        transform: scale(1.03);
+      }
+
+      .project-name {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .project-title {
+        font-size: 1.4rem;
+        color: var(--dark-grey);
+        font-weight: bold;
+      }
+
+      .project-description {
+        padding-block: 2em;
+        line-height: 145%;
+        max-width: 40ch;
+      }
+
+      footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5em;
+        padding: 50px;
+      }
+
+      footer > p:hover {
+        color: var(--accent);
+      }
+
+
+
+      /* Photo caption */
+
+            .lb-caption b {
+              font-size: 1.5em;
+              color: white;
+              margin-bottom: .5em;
+              margin-top: .5em;
+            }
+
+            .lb-caption i {
+              color: gray;
+            }
+
+            .lb-caption p {
+              color: white;
+            }
+
+      /* work nav */
+
+            .work--btn {
+              text-align: center;
+              max-width: 150px;
+              display: inline;
+              text-decoration: none;
+              font-weight: bold;
+              text-transform: uppercase;
+              font-size: 0.725rem;
+              padding: 0.785em 2em;
+              border: 1px solid var(--light-grey);
+              border-radius: 100px;
+              width: 100%;
+              color: #999;
+              margin-right: 12px;
+              margin-bottom: 10px;
+              background-color: white;
+            }
+
+            .work--btn:hover {
+              color: black;
+              border: 1px solid black;
+            }
+
+
+
+    </style>
   </head>
   <body>
-    <img id="blackLOGO" src="images/logo_black.png">
-    <img id="whiteLOGO" style="display:none;" src="images/logo_white.png">
-    <i onclick="myFunction()" id="nightICON" class="fas fa-moon"></i>
-    <i onclick="myFunction()" style="display:none;" id="dayICON" class="far fa-sun"></i>
-    <span>
-      coming soon<br>
-      <small>
-        <a href="mailto:hello@bradleyjon.es" target="_blank"><i class="fas fa-envelope"></i></a>
-        <a href="https://www.twitter.com/bbradleyjoness/" target="_blank"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.instagram.com/bbradleyjoness/" target="_blank"><i class="fab fa-instagram"></i></a>
-      </small>
-    </span>
+
+    <div class="portfolio-container">
+      <div class="hero">
+        <img src="images/selfie.jpg" alt="Photo of Bradley Dean Jones." class="hero--image">
+        <div class="hero--bio">
+          <h1><img src="https://bbradleyjoness.github.io/images/logo_black.png" style="width:100%;"></h1>
+          <!-- <h1>Bradley Dean Jones</h1> -->
+          <h3>Designer – Photographer</h3>
+          <p class="basic-info">photographer 📷 graphic designer 🖥 indianapolis 📍 photojournalism | BSU 🎓 mental health advocate 💊 coffee ☕️ sushi 🍣</p>
+          <nav>
+            <!-- <a href="#" class="nav--btn">About</a> -->
+            <a href="mailto:hello@bradleyjon.es?subject=Contacting from your Site" class="nav--btn">Contact</a>
+            <a href="images/resume.pdf" target="_blank" class="nav--btn">Resume</a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- <div class="project-wrapper">
+        <img src="https://uxfol.io/template-previews/theme-pictures/theme_02-project-thumbnail-01.png" alt="" class="project-thumbnail">
+        <div class="project-name">
+          <h2 class="project-title">SED do eiusmod</h2>
+          <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+      </div>
+
+      <div class="project-wrapper">
+
+        <div class="project-name">
+          <h2 class="project-title">Labore et dolore</h2>
+          <p class="project-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        </div>
+        <img src="https://uxfol.io/template-previews/theme-pictures/theme_02-project-thumbnail-02.png" alt="" class="project-thumbnail">
+      </div> -->
+    </div>
+
+
+
+    <div class="wrapper">
+    	<div class="button-group filter-button-group">
+    		<button class="work--btn" data-filter="*">show all</button>
+    		<button class="work--btn" data-filter=".design">design</button>
+    		<button class="work--btn" data-filter=".dev">development</button>
+    		<button class="work--btn" data-filter=".photo">photography</button>
+    	</div>
+    	<div class="grid">
+    		<div class="grid-sizer"></div>
+        <!-- <a href="URLLLLLL" data-lightbox="img-NUMBERRRRR" data-title="<b>TITLEEEE</b> <i>DATEEEEEEE</i> <p>CAPTIONNNNNN</p>"><img src="URLLLLLL" class="grid-item TAGGGGGGGGGGG"></a> -->
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/43b7e64e0acf89022aa6c83ba3da9e8130dd1419/images/work/photography/xmas%202022.jpg" data-lightbox="img-NUMBERRRRR" data-title="<b>Holiday 2022</b> <i>12.25.2022</i> <p>This was our 2022 Holiday card my significant other and I sent out.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/43b7e64e0acf89022aa6c83ba3da9e8130dd1419/images/work/photography/xmas%202022.jpg" class="grid-item photography design"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%205.jpg" data-lightbox="img-73" data-title="<b>George Floyd Indy Protests (no. 5)</b> <i>05.29.2020</i> <p>On May 25th, 2020 George Floyd was murdered by a Minneapolis police officer. The following days to weeks there was mass protests to fight for black lives and police brutality. On May 29th, 2020, Downtown Indianapolis, there was protests that turned into riots that were dispersed by police. At least 2 were killed downtown Indy this night. <br><br> <i>This was upscaled using AI for cleaner image.</i></p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%205.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%203.jpg" data-lightbox="img-72" data-title="<b>George Floyd Indy Protests (no. 4)</b> <i>05.29.2020</i> <p>On May 25th, 2020 George Floyd was murdered by a Minneapolis police officer. The following days to weeks there was mass protests to fight for black lives and police brutality. On May 29th, 2020, Downtown Indianapolis, there was protests that turned into riots that were dispersed by police. At least 2 were killed downtown Indy this night. <br><br> <i>This was upscaled using AI for cleaner image.</i></p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%203.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%204.jpg" data-lightbox="img-71" data-title="<b>George Floyd Indy Protests (no. 3)</b> <i>05.29.2020</i> <p>On May 25th, 2020 George Floyd was murdered by a Minneapolis police officer. The following days to weeks there was mass protests to fight for black lives and police brutality. On May 29th, 2020, Downtown Indianapolis, there was protests that turned into riots that were dispersed by police. At least 2 were killed downtown Indy this night. <br><br> <i>This was upscaled using AI for cleaner image.</i></p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%204.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%201.jpg" data-lightbox="img-70" data-title="<b>George Floyd Indy Protests (no. 2)</b> <i>05.29.2020</i> <p>On May 25th, 2020 George Floyd was murdered by a Minneapolis police officer. The following days to weeks there was mass protests to fight for black lives and police brutality. On May 29th, 2020, Downtown Indianapolis, there was protests that turned into riots that were dispersed by police. At least 2 were killed downtown Indy this night. <br><br> <i>This was upscaled using AI for cleaner image.</i></p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%201.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%202.jpg" data-lightbox="img-69" data-title="<b>George Floyd Indy Protests (no. 1)</b> <i>05.29.2020</i> <p>On May 25th, 2020 George Floyd was murdered by a Minneapolis police officer. The following days to weeks there was mass protests to fight for black lives and police brutality. On May 29th, 2020, Downtown Indianapolis, there was protests that turned into riots that were dispersed by police. At least 2 were killed downtown Indy this night. <br><br> <i>This was upscaled using AI for cleaner image.</i></p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/d41c5c932d35e48fb86a154618fe8bb11f792d29/images/work/photography/George%20Floyd%20Indy%20Protests%202.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/gannett_ad_plane.gif" data-lightbox="img-68" data-title="<b>Animated Ad (no. 2)</b> <i>05.29.2019</i> <p>This is an ad that I designed and animated for work at Gannett.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/gannett_ad_plane.gif" class="grid-item design"></a>
+        <a href="https://github.com/bbradleyjoness/bbradleyjoness.github.io/blob/master/images/work/design/gannett_ad_bogo.gif?raw=true" data-lightbox="img-67" data-title="<b>Animated Ad (no. 1)</b> <i>04.25.2019</i> <p>This is an ad that I designed and animated for work at Gannett.</p>"><img src="https://github.com/bbradleyjoness/bbradleyjoness.github.io/blob/master/images/work/design/gannett_ad_bogo.gif?raw=true" class="grid-item design"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/IFQK6H5.gif" data-lightbox="img-66" data-title="<b>Gannett Animation</b> <i>06.12.2018</i> <p>I made this animated graphic to announce I got a job at Gannett, to my friends and family.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/IFQK6H5.gif" class="grid-item design"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/052517_foxing.jpg" data-lightbox="img-65" data-title="<b>Foxing in Concert</b> <i>05.25.2018</i> <p>Amazing concert of Foxing at the Hi-Fi.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/052517_foxing.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/ezgif-3-0fad4cbe72d0.gif" data-lightbox="img-64" data-title="<b>iOS Lockscreen Concept</b> <i>01.24.2018</i> <p>iOS lockscreen notification concept.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/ezgif-3-0fad4cbe72d0.gif" class="grid-item desgin dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/101217_BTCardinalMoving.jpg" data-lightbox="img-63" data-title="<b>B&T Cardinal Moving logo</b> <i>10.12.2017</i> <p>I worked on a local Indiana moving companies logo and did their website.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/101217_BTCardinalMoving.jpg" class="grid-item design"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Designed%20In%20Indy%20logo.jpg" data-lightbox="img-62" data-title="<b>Designed In Indy logo</b> <i>10.06.2017</i> <p>This was for a logo for a development side project I hope to contiune in the future. Just haven't had too much time on it.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Designed%20In%20Indy%20logo.jpg" class="grid-item design"></a>
+        <!-- <a href="http://tinyimg.io/i/2eidFZL.jpg" data-lightbox="img-61" data-title="<b>BicycleCMS</b> <i>08.01.2017</i> <p>This is a CMS I built. I'm going to start a new one at some point starting from scratch.</p>"><img src="http://tinyimg.io/i/2eidFZL.jpg" class="grid-item design dev"></a> -->
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/161356163405.jpg" data-lightbox="img-60" data-title="<b>Unmasked: The Stigma of Meth website</b> <i>6.15.2017</i> <p>I was the web designer and developer an immersive learning journalism class at Ball State University called Unmasked: The Stigma of Meth.<br><br>This project was where a collective of students went out and ended up with a 20 minute, award winning documentary. This documentary also played on PBS.<br><br>If you’re interested in checking it out, <a href='http://stigmaunmasked.com'>click here</a>. <br><br><i>(NOTE: The site has been updated since I left the project / outdated with some images not showing up.)</i></p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/161356163405.jpg" class="grid-item design dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/161207569335.jpg" data-lightbox="img-59" data-title="<b>Ball State Daily website redesign</b> <i>05.15.2017</i> <p>I was the UI designer for a massive redesign project at the <a href='https://www.ballstatedaily.com'>Ball State Daily</a>. This project was done in collaboration with some other students at Ball State University. The site has since been changed with only some similarities.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/161207569335.jpg" class="grid-item design dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/159760713205_3.jpg" data-lightbox="img-58" data-title="<b>dance (part 3)</b> <i>04.19.2017</i> <p>I did a photoshoot with two other photojournalism students where we were shooting dancers onto of an abadoned factory.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/159760713205_3.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/159760713205_2.jpg" data-lightbox="img-57" data-title="<b>dance (part 2)</b> <i>04.19.2017</i> <p>I did a photoshoot with two other photojournalism students where we were shooting dancers onto of an abadoned factory.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/159760713205_2.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/159760713205_1.jpg" data-lightbox="img-56" data-title="<b>dance (part 1)</b> <i>04.19.2017</i> <p>I did a photoshoot with two other photojournalism students where we were shooting dancers onto of an abadoned factory.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/159760713205_1.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/158637138475_3.jpg" data-lightbox="img-55" data-title="<b>sway (part 3)</b> <i>03.20.2017</i> <p>A fun photoshoot using abstract lighting and movements.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/158637138475_3.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/158637138475_2.jpg" data-lightbox="img-54" data-title="<b>sway (part 2)</b> <i>03.20.2017</i> <p>A fun photoshoot using abstract lighting and movements.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/158637138475_2.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/158637138475_1.jpg" data-lightbox="img-53" data-title="<b>sway (part 1)</b> <i>03.20.2017</i> <p>A fun photoshoot using abstract lighting and movements.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/158637138475_1.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/157323903945.jpg" data-lightbox="img-52" data-title="<b>legs</b> <i>02.16.2017</i> <p>I’m starting to enjoy doing model shoots. More fashion related content coming soon.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/157323903945.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/157238683855.jpg" data-lightbox="img-51" data-title="<b>valentine's day 2017 ❤️</b> <i>02.14.2017</i> <p>Valentine's Day themed project for a photo class.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/157238683855.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/156985737980.jpg" data-lightbox="img-50" data-title="<b>urban decay</b> <i>02.08.2017</i> <p>while out exploring we found this abandoned building that was once a school/factory.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/156985737980.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/156368466810.jpg" data-lightbox="img-49" data-title="<b>flowers. 🌺</b> <i>01.25.2017</i> <p>I’ve never been a big fan of portraits but the more I’m forced to do them for class, the more I feel okay with them.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/156368466810.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/70e0f79b1a4c4fed3edffbfbb61efb7b270ab0e4/images/work/photography/Snowfall.jpg" data-lightbox="img-48" data-title="<b>Snowfall</b> <i>12.17.2016</i> <p>🌨 This was upscaled using AI for cleaner image.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/70e0f79b1a4c4fed3edffbfbb61efb7b270ab0e4/images/work/photography/Snowfall.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/2a0143bcd66e4315ada440164fbdda57a36cc879/images/work/photography/Lenard%20Cohen%20Tribute%20Night.jpg" data-lightbox="img-47" data-title="<b>Lenard Cohen Tribute Night</b> <i>12.01.2016</i> <p>Leonard Cohen Tribute Night at Village Green Records. This was upscaled using AI for cleaner image.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/2a0143bcd66e4315ada440164fbdda57a36cc879/images/work/photography/Lenard%20Cohen%20Tribute%20Night.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/153275047900.jpg" data-lightbox="img-46" data-title="<b>Moon Shot</b> <i>11.16.2016</i> <p>Shot the Moon the other night for the first time, happy with the outcome.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/153275047900.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/150974730650.jpg" data-lightbox="img-45" data-title="<b>Drone Selfie</b> <i>09.26.2016</i> <p>A selfie from a Phantom 3 drone.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/150974730650.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/150109523725.jpg" data-lightbox="img-44" data-title="<b>cmyk</b> <i>09.07.2016</i> <p>My brother posed for this shot for an assignment for a photo class.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/150109523725.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/149817111845.jpg" data-lightbox="img-43" data-title="<b>'Lockdown'</b> <i>09.01.2016</i> <p>'Man with gun reported on campus. Heavy police present by Woodworth.' <br>This was at Ball State Univeristy where a gunman was seen. It was a student with an Humans vs. Zombies Nerf Gun. This photo was on the front page of the Ball State Daily newspaper. </p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/149817111845.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/147811685255_2.jpg" data-lightbox="img-42" data-title="<b>Shots</b> <i>07.21.2016</i> <p>🙎🏻‍♀️</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/147811685255_2.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/147811685255_1.jpg" data-lightbox="img-41" data-title="<b>Posed</b> <i>07.21.2016</i> <p>🙎🏻‍♀️</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/147811685255_1.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/141556320765.jpg" data-lightbox="img-40" data-title="<b>First studio work</b> <i>03.23.2016</i> <p>The first time I did portrait photography inside a studio setting.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/141556320765.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/140664020475.jpg" data-lightbox="img-39" data-title="<b>Brother</b> <i>03.07.2016</i> <p>My brother being my brother.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/140664020475.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/139669996330.jpg" data-lightbox="img-38" data-title="<b>Gaze</b> <i>02.19.2016</i> <p>A friend of mine looking around an abandoned factory.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/139669996330.jpg" class="grid-item photo"></a>
+        <!-- <a href="http://tinyimg.io/i/l6gqhPo.jpg" data-lightbox="img-37" data-title="<b>self portrait</b> <i>11.20.2015</i> <p>A self portrait. Or a selfie. I'm not sure.</p>"><img src="http://tinyimg.io/i/l6gqhPo.jpg" class="grid-item photo"></a> -->
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/133615763470.jpg" data-lightbox="img-36" data-title="<b>homestead</b> <i>11.12.2015</i> <p>Found this beautfiul sight walking through DC.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/133615763470.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/a%20room%20with%20a%20view.jpg" data-lightbox="img-35" data-title="<b>a room with a view</b> <i>11.11.2015</i> <p>A photo from the window on the way Washington DC for a class trip. There we met with Vox, Washington Post, and NPR people to talk about the redesign we were working on for the Ball State Daily.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/a%20room%20with%20a%20view.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/132752350445.jpg" data-lightbox="img-34" data-title="<b>speed</b> <i>11.04.2015</i> <p>This was a photo class assignment based on capturing movement.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/132752350445.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/132752222065.jpg" data-lightbox="img-33" data-title="<b>wallpapers</b> <i>10.22.2015</i> <p>The first room you walk into at 111 Arts Gallery and Tattoo Studio in Muncie, Indiana which is covered in art.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/132752222065.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/133616548080.jpg" data-lightbox="img-32" data-title="<b>Between Two Worlds' article</b> <i>09.30.2015</i> <p>I was the web designer for this article for the <a href='https://www.ballstatedaily.com'>Ball State Daily</a>. The website can be found <a href='https://www.ballstatedaily.com/article/2015/11/international-adoptees'>here</a>.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/133616548080.jpg" class="grid-item design dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/130694019545.jpg" data-lightbox="img-31" data-title="<b>Muncie’s methamphetamine dilemma' article</b> <i>09.24.2015</i> <p>I was the web designer for this article for the <a href='https://www.ballstatedaily.com'>Ball State Daily</a>. The website has since changed but an article about the project can be found <a href='https://magazine.bsu.edu/2017/01/23/student-documentary-meth/'>here</a></p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/130694019545.jpg" class="grid-item design dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/129244130010.jpg" data-lightbox="img-30" data-title="<b>The Indigo's website</b> <i>09.16.2015</i> <p>I was the web designer/developer for a local band, The Indigos. The website has since been changed.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/129244130010.jpg" class="grid-item design dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/129244034905.jpg" data-lightbox="img-29" data-title="<b>Goering Law website</b> <i>09.13.2015</i> <p>I was the web developer and designer for a local lawyer’s website. The website has since been delete.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/129244034905.jpg" class="grid-item design dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/129243899910.jpg" data-lightbox="img-28" data-title="<b>The Bearded Biker of Burkhardt' Article</b> <i>08.05.2015</i> <p>I was the web developer for this project for the <a href='https://www.ballstatedaily.com'>Ball State Daily</a>. The website has since been deleted.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/webdesign/129243899910.jpg" class="grid-item design dev"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/125963334530.jpg" data-lightbox="img-27" data-title="<b>Mail concept</b> <i>08.05.2015</i> <p>This concept was for a mail app called Therma.il</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/design/125963334530.jpg" class="grid-item design"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/db82c4d299a955a18118665ac8c052c4a2db25c4/images/work/photography/Passion%20Pit%20in%20concert.jpg" data-lightbox="img-26" data-title="<b>Passion Pit in concert</b> <i>05.14.2015</i> <p>This was an amazing concert from one of my favoite bands. It was at the Thalia Hall in Chicago.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/db82c4d299a955a18118665ac8c052c4a2db25c4/images/work/photography/Passion%20Pit%20in%20concert.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/119295647977.jpg" data-lightbox="img-25" data-title="<b>Chicago (no. 3)</b> <i>05.13.2015</i> <p>⛵️</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/119295647977.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/119211835913.jpg" data-lightbox="img-24" data-title="<b>Chicago (no. 2)</b> <i>05.13.2015</i> <p>⛵️</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/119211835913.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/119126257439.jpg" data-lightbox="img-23" data-title="<b>Chicago (no. 1)</b> <i>05.13.2015</i> <p>🏙</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/119126257439.jpg" class="grid-item photo"></a>
+        <!-- <a href="http://tinyimg.io/i/whC3GgZ.jpg" data-lightbox="img-22" data-title="<b>BSU Carnival 2015</b> <i>05.07.2015</i> <p>Every year Ball State University has a carnival free for students. It was always a great time!</p>"><img src="http://tinyimg.io/i/whC3GgZ.jpg" class="grid-item photo"></a> -->
+        <!-- <a href="http://tinyimg.io/i/vRxBzbt.jpg" data-lightbox="img-21" data-title="<b>Big move</b> <i>05.01.2015</i> <p>This was the first time living by myself. It was a great change of pace.</p>"><img src="http://tinyimg.io/i/vRxBzbt.jpg" class="grid-item photo"></a> -->
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/129245684590_1.jpg" data-lightbox="img-20" data-title="<b>'RFRA Rally at Indianapolis Statehouse'</b> <i>03.29.2015</i> <p>I went to help cover the Religious Freedom Restoration Act (RFRA) rally March 28th at the Indianapolis Statehouse for the Ball State Daily. With over 1000 protesters gathered around the Statehouse to rally against the RFRA, which was seen to be able for business owners to reject LGBTQ individuals from their stores.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/129245684590_1.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/129245684590_2.jpg" data-lightbox="img-19" data-title="<b>'RFRA Rally at Indianapolis Statehouse'</b> <i>03.29.2015</i> <p>I went to help cover the Religious Freedom Restoration Act (RFRA) rally March 28th at the Indianapolis Statehouse for the Ball State Daily. With over 1000 protesters gathered around the Statehouse to rally against the RFRA, which was seen to be able for business owners to reject LGBTQ individuals from their stores.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/129245684590_2.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/129245684590_3.jpg" data-lightbox="img-18" data-title="<b>'RFRA Rally at Indianapolis Statehouse'</b> <i>03.29.2015</i> <p>I went to help cover the Religious Freedom Restoration Act (RFRA) rally March 28th at the Indianapolis Statehouse for the Ball State Daily. With over 1000 protesters gathered around the Statehouse to rally against the RFRA, which was seen to be able for business owners to reject LGBTQ individuals from their stores.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/129245684590_3.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/195dbafb33489e003a76843a34535ad4d2827df6/images/work/design/Decades%20of%20Difference'%20front%20page%20photo%20graphic.jpg" data-lightbox="img-17" data-title="<b>Decades of Difference' front page photo graphic</b> <i>03.23.2015</i> <p>For the Ball State Daily News I made a mashed up photo of The Village in Muncie, IN from long ago and current. Online I made a jux-slider to slide between each and see the difference. This was upscaled using AI for cleaner image.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/195dbafb33489e003a76843a34535ad4d2827df6/images/work/design/Decades%20of%20Difference'%20front%20page%20photo%20graphic.jpg" class="grid-item photo design"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Snow%20Lands%20(no.%202).jpg" data-lightbox="img-16" data-title="<b>Snow Lands (no. 2)</b> <i>03.03.2015</i> <p>Cold winter in Central Indiana.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Snow%20Lands%20(no.%202).jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Snow%20Lands%20(no.%201).jpg" data-lightbox="img-15" data-title="<b>Snow Lands (no. 1)</b> <i>03.03.2015</i> <p>Cold winter in Central Indiana.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Snow%20Lands%20(no.%201).jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Cruiser.jpg" data-lightbox="img-14" data-title="<b>Cruiser</b> <i>09.20.2014</i> <p>Photograph along the Cardinal Greenway.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Cruiser.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/The%20Dock.jpg" data-lightbox="img-13" data-title="<b>The Dock</b> <i>07.18.2014</i> <p>This is heavily photoshopped. It was suppose to look as if it was a sea/ocean but in reality it was just a small lake. It was really fun learning what I could do in Photoshop to manipulate a photograph.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/The%20Dock.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Lovely%20Dress%20(no.%203).jpg" data-lightbox="img-12" data-title="<b>Lovely Dress (no. 3)</b> <i>06.15.2014</i> <p>This was a project where they model made the dress she was wearing and I photographed it for her.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Lovely%20Dress%20(no.%203).jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Lovely%20Dress%20(no.%202).jpg" data-lightbox="img-11" data-title="<b>Lovely Dress (no. 2)</b> <i>06.15.2014</i> <p>This was a project where they model made the dress she was wearing and I photographed it for her.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Lovely%20Dress%20(no.%202).jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Lovely%20Dress%20(no.%201).jpg" data-lightbox="img-10" data-title="<b>Lovely Dress (no. 1)</b> <i>06.15.2014</i> <p>This was a project where they model made the dress she was wearing and I photographed it for her.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Lovely%20Dress%20(no.%201).jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Meteor%20Shower.jpg" data-lightbox="img-9" data-title="<b>Meteor Shower</b> <i>05.05.2014</i> <p>This was part of a project with a few friends where we lit steel wool on fight and made this cool long exposure.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Meteor%20Shower.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Eye%20Of%20The%20Storm.jpg" data-lightbox="img-8" data-title="<b>Eye of the storm</b> <i>05.05.2014</i> <p>This was part of a project with a few friends where we lit steel wool on fight and made this cool long exposure.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Eye%20Of%20The%20Storm.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Burning%20All%20The%20Bridges.jpg" data-lightbox="img-7" data-title="<b>Burning All The Bridges</b> <i>05.05.2014</i> <p>This was part of a project with a few friends where we lit steel wool on fight and made this cool long exposure.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Burning%20All%20The%20Bridges.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Sunsite.jpg" data-lightbox="img-6" data-title="<b>Sunsite</b> <i>05.03.2014</i> <p>Driving to Muncie, IN from Cincinnati, OH.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Sunsite.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Chain%20Link.jpg" data-lightbox="img-5" data-title="<b>Chain Link</b> <i>04.24.2014</i> <p>⛓</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Chain%20Link.jpg" class="grid-item photo"></a>
+    		<a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Still%3B%20A%20Self%20Portrait.jpg" data-lightbox="img-4" data-title="<b>Still; A Self Portrait</b> <i>04.06.2014</i> <p>A self portrait. Or a selfie. I'm not sure.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Still%3B%20A%20Self%20Portrait.jpg" class="grid-item photo"></a>
+    		<a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Big%20Man%2C%20Tiny%20Jacket.jpg" data-lightbox="img-3" data-title="<b>Big Man, Tiny Jacket</b> <i>03.08.2014</i> <p>My brother in a tiny jacket.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Big%20Man%2C%20Tiny%20Jacket.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Passing.jpg" data-lightbox="img-2" data-title="<b>Passing</b> <i>03.07.2014</i> <p>This is a photgraph from when I first started working on long exposure.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Passing.jpg" class="grid-item photo"></a>
+        <a href="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Wrong%2C%20Wrong%2C%20Wrong.jpg" data-lightbox="img-1" data-title="<b>Wrong, Wrong, Wrong</b> <i>03.02.2014</i> <p>This was a high school art class project.</p>"><img src="https://raw.githubusercontent.com/bbradleyjoness/bbradleyjoness.github.io/master/images/work/photography/Wrong%2C%20Wrong%2C%20Wrong.jpg" data-lightbox="img-1" class="grid-item design photo"></a>
+    	</div>
+    </div>
+    <footer>
+      <p>instagram</p>
+      <p>twitter</p>
+      <p>linkedin</p>
+    </footer>
   </body>
+  <script type="text/javascript">
+    const $grid = $('.grid').imagesLoaded(function() {
+    	// init Isotope after all images have loaded
+    	$grid.isotope({
+    		itemSelector: '.grid-item',
+    		percentPosition: true
+    	});
+    });
+    // filter functions
+    const filterFns = {
+    	// show if number is greater than 50
+    	numberGreaterThan50: function() {
+    		var number = $(this).find('.number').text();
+    		return parseInt(number, 10) > 50;
+    	},
+    	// show if name ends with -ium
+    	ium: function() {
+    		var name = $(this).find('.name').text();
+    		return name.match(/ium$/);
+    	}
+    };
+    // bind filter button click
+    $('.filter-button-group').on('click', 'button', function() {
+    	var filterValue = $(this).attr('data-filter');
+    	// use filterFn if matches value
+    	filterValue = filterFns[filterValue] || filterValue;
+    	$grid.isotope({
+    		filter: filterValue
+    	});
+    });
+    // change is-checked class on buttons
+    $('.button-group').each(function(i, buttonGroup) {
+    	var $buttonGroup = $(buttonGroup);
+    	$buttonGroup.on('click', 'button', function() {
+    		$buttonGroup.find('.is-checked').removeClass('is-checked');
+    		$(this).addClass('is-checked');
+    	});
+    });
+
+    lightbox.option({
+    	'resizeDuration': 200,
+    	'wrapAround': true
+    })
+  </script>
 </html>
