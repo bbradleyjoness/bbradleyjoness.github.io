@@ -1,0 +1,2767 @@
+<!-- 
+====================================================
+                INDY BENCH MENCH — TO-DO
+====================================================
+
+GENERAL
+- Add favicon
+- Add final about photo
+- Finalize logo (light + dark modes)
+- Create light/dark versions of badge & horizontal logos
+
+MAP
+- Add real bench / pantry / map data to the sheet
+- Visual / Layout
+  • Desktop layout: marker on left, info panel on right (~60% width, near full height)
+  • Mobile layout: info panel above, marker below
+  • I HAVE A PIC OF WHAT I WANT SAVED
+
+FUTURE IDEAS
+- OPTIONAL: Add instagram section
+- OPTIONAL: Add a supporter section
+- OPTIONAL: Replace dot markers with themed icons depending on project type:
+  • Bench  
+  • Food pantry  
+  • Little library 
+- OPTIONAL: add "## benches requested"
+- OPTIONAL: add a “Support this project” action/button
+- DATA / PERFORMANCE
+  • OPTIONAL: background revalidation so new benches appear without refresh
+  • OPTIONAL: lazy-load popup images for large datasets
+- OPTIONAL: Custom dark-mode map styling (css) beyond MapTiler defaults
+- OPTIONAL: User-submitted photos & build logs / changelog system
+- OPTIONAL: Show installed dates, “last updated” dates, or builder details
+- OPTIONAL heatmap layer for “need a bench here” request density
+- OPTIONAL: Add a timeline or history view of installations
+- OPTIONAL: Add a filter for “community-requested” vs “builder-identified”
+- OPTIONAL: Integrate a simple voting system for requested benches
+- OPTIONAL: Add a “near me” quick-locate button on mobile
+- OPTIONAL: Display walking distance/time to the nearest bench
+- OPTIONAL: Add seasonal modes (summer/winter visual tweaks)
+
+
+NOTES
+- Should "Benches placed: " count ALL placed EVER or just the ones currently deployed.
+
+====================================================
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indy Bench Mench</title>
+
+  <!-- Let the browser know we support light & dark -->
+  <meta name="color-scheme" content="light dark" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./assets/images/favicon-bench.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@500;700&family=Cabin+Sketch:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- MapTiler SDK CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.maptiler.com/maptiler-sdk-js/v1.2.2/maptiler-sdk.css"
+  />
+
+  <!-- Leaflet MarkerCluster CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+  />
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/d508930c9a.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root {
+      --bench-green: #53ac7b;
+      --soft-sidewalk: #F5F2EB;
+      --clay-accent: #C87A57;
+      --indy-blue: #406E87;
+      --sunbeam: #FFE08A;
+      --trail-gray: #D2CECA;
+      --missing-red: #C84A4A;
+      --text-main: #253028;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 8px 22px rgba(0,0,0,0.06);
+      --card-shadow-hover: 0 10px 26px rgba(0,0,0,0.08);
+      --border-subtle: #e4dfd9;
+      --legend-pill-bg: #f3eee7;
+      --insta-bg: #ebe4da;
+      --footer-text: #878c84;
+      --link-tag-bg: #eef4f8;
+      --secondary-btn-bg: #FFFFFF;
+      --muted-text: #646962;
+      --upcoming-pill-bg: #F0ECE4;
+
+      --pastel-installed: #AEE5C2;
+      --pastel-requested: #BFD9ED;
+      --pastel-needs: #FFF3B8;
+      --pastel-missing: #F5B5B5;
+      --pastel-coming: #D8C8F0;
+    }
+
+    body.dark-mode {
+      --soft-sidewalk: #202020;
+      --text-main: #F4F5F2;
+      --bench-green: #7BD9A0;
+      --indy-blue: #8CB7FF;
+      --clay-accent: #E29A73;
+      --sunbeam: #FFE08A;
+      --trail-gray: #33383A;
+      --missing-red: #FF7A7A;
+      --card-bg: #181C1D;
+      --card-shadow: 0 8px 22px rgba(0,0,0,0.1);
+      --card-shadow-hover: 0 10px 26px rgba(0,0,0,0.2);
+      --border-subtle: #2C3233;
+      --legend-pill-bg: #222728;
+      --legend-pill-bg-darkmode-hover: #2e3638;
+      --insta-bg: #1C2122;
+      --footer-text: #A5ABA4;
+      --link-tag-bg: #212B38;
+      --secondary-btn-bg: #181C1D;
+      --muted-text: #AEB3AE;
+      --upcoming-pill-bg: #23282A;
+
+      --pastel-installed: #7BCD9B;
+      --pastel-requested: #8FBAD6;
+      --pastel-needs: #E8D985;
+      --pastel-missing: #E08A8A;
+      --pastel-coming: #B9A7DF;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--soft-sidewalk);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    a {
+      color: var(--indy-blue);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* MODE TOGGLE */
+    .mode-toggle-wrapper {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 1001;
+    }
+
+    #modeToggle {
+      font-size: 1.5rem;
+      border: none;
+      background: rgba(255, 255, 255, 0);
+      backdrop-filter: blur(10px);
+      color: #000;
+      border-radius: 12px;
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    #modeToggle i {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    body.dark-mode #modeToggle {
+      color: #fff;
+    }
+
+    body.dark-mode #modeToggle i {
+      transform: rotate(180deg);
+      opacity: 0.85;
+    }
+
+    .mode-toggle-auto {
+      position: absolute;
+      top: 100%;
+      right: -10px;
+      margin-top: 0px;
+      background: none;
+      border-radius: 10px;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-4px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .mode-toggle-wrapper:hover .mode-toggle-auto,
+    .mode-toggle-auto:hover {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .mode-auto-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+    }
+
+    .mode-auto-label input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      cursor: pointer;
+      accent-color: rgba(0, 0, 0, 1);
+    }
+
+    body.dark-mode .mode-auto-label input[type="checkbox"] {
+      accent-color: rgba(255, 255, 255, 0.4);
+    }
+
+    @media(max-width:720px) {
+      .about-layout { grid-template-columns: 1fr; }
+      .links-layout { grid-template-columns: 1fr; }
+      .header-inner { padding-top: 2.2rem; }
+      .mode-toggle-wrapper {
+        top: 0.8rem;
+        right: 0.8rem;
+      }
+    }
+
+    /* HEADER */
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-subtle);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 2rem;
+      position: relative;
+    }
+
+    header img {
+      width: 600px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 0rem;
+    }
+
+    section {
+      margin-bottom: 2.75rem;
+      background: var(--card-bg);
+      padding: 1.9rem 1.7rem;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      transition: transform .25s, box-shadow .25s, background .25s;
+    }
+
+    h2 {
+      margin: 0 0 .6rem;
+      font-family: "Manrope";
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    h3 {
+      margin: 0 0 .4rem;
+      font-family: "Manrope";
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .muted {
+      color: var(--muted-text);
+      font-size: 0.9rem;
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 1.1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .about-layout h1 {
+      line-height: 1.2;
+      margin: 0 0 .6rem;
+      font-family: "Manrope";
+      font-weight: 800;
+      font-size: 1.75rem;
+    }
+
+    .about-image {
+      width: 100%;
+      border-radius: 14px;
+      background: #222;
+      min-height: 200px;
+      object-fit: cover;
+    }
+
+    .bench-count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem .9rem;
+      border-radius: 10px;
+      background: var(--bench-green);
+      border: 1px solid rgba(0,0,0,0.06);
+      font-size: .78rem;
+      font-weight: 500;
+      margin-top: .75rem;
+      font-family: "Inter", system-ui, sans-serif;
+      color: #ffffff;
+    }
+
+    body.dark-mode .bench-count-badge {
+      color: #000000;
+      background: #ffffff;
+      border-color: #00000022;
+    }
+
+    .red-heart {
+      color: red;
+    }
+
+    /* MAP SECTION */
+    #map-section {
+      position: relative;
+    }
+
+    .map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.25rem;
+      margin-top: 1rem;
+      align-items: stretch;
+    }
+
+    @media (min-width: 901px) {
+      .map-layout.has-selection {
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      }
+
+      #mapDetailPanel {
+        drop-shadow: none;
+        box-shadow: none;
+        display: none;
+      }
+
+      .map-layout.has-selection #mapDetailPanel {
+        display: flex;
+      }
+    }
+
+    .map-wrapper {
+      position: relative;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #d0d4da;
+    }
+
+    .map-detail-panel {
+      background: var(--card-bg);
+      border-radius: 14px;
+      box-shadow: var(--card-shadow);
+      border: 1px solid var(--border-subtle);
+      padding: 1.2rem 1.3rem;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    /* Slide-in animation */
+    @keyframes mapDetailSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .map-detail-panel.map-detail-panel--anim {
+      animation: mapDetailSlideIn 0.25s ease-out;
+    }
+
+    .map-detail-title {
+      margin: 0 0 0.2rem;
+      font-family: "Manrope";
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .map-detail-status {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted-text);
+    }
+
+    .map-detail-body {
+      margin-top: 0.45rem;
+      font-size: 0.9rem;
+    }
+
+    .map-detail-empty {
+      font-size: 0.9rem;
+      color: var(--muted-text);
+    }
+
+    @media (max-width: 900px) {
+      .map-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .map-detail-panel {
+        order: -1;
+      }
+    }
+
+    #map {
+      width: 100%;
+      height: 460px;
+      position: relative;
+      z-index: 0;
+    }
+
+    body.dark-mode .map-wrapper {
+      background: #14181a;
+    }
+
+    .map-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(245, 242, 235, 0.98);
+      z-index: 1000;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--muted-text);
+      text-align: center;
+      padding: 1rem;
+    }
+
+    body.dark-mode .map-loading {
+      background: rgba(20, 24, 26, 0.92);
+    }
+
+    .leaflet-container {
+      background: none;
+    }
+
+    .leaflet-control-zoom.leaflet-bar {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    .leaflet-control-zoom.leaflet-bar a {
+      background: var(--card-bg);
+      color: var(--text-main);
+      border: none;
+      font-size: 18px;
+      width: 34px;
+      height: 34px;
+      line-height: 32px;
+      text-align: center;
+      padding: 0;
+    }
+
+    .leaflet-control-zoom.leaflet-bar a:hover {
+      background: var(--legend-pill-bg);
+      text-decoration: none;
+    }
+
+    body.dark-mode .leaflet-control-zoom.leaflet-bar a {
+      background: #3a4345;
+      color: var(--text-main);
+    }
+
+    body.dark-mode .leaflet-control-zoom.leaflet-bar a:hover {
+      background: var(--legend-pill-bg-darkmode-hover);
+    }
+
+    .leaflet-control-attribution {
+      font-size: 9px !important;
+      background: rgba(255,255,255,0.65) !important;
+      color: #333 !important;
+      padding: 2px 6px !important;
+      border-radius: 6px !important;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .leaflet-control-attribution a {
+      text-decoration: none !important; 
+      color: #000 !important;
+    }
+    
+    body.dark-mode .leaflet-control-attribution a {
+      color: #bbb !important;
+    }
+
+    .leaflet-control-attribution a:hover {
+      opacity: .5 !important;
+    }
+
+    body.dark-mode .leaflet-control-attribution {
+      background: rgba(0,0,0,0.4) !important;
+      color: #ddd !important;
+    }
+
+    .legend {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      font-size: .8rem;
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 400;
+      pointer-events: auto;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .25rem .6rem;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.78rem;
+      color: var(--text-main);
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    body.dark-mode .legend-item {
+      background: #3a4345;
+      color: white;
+    }
+
+    body.dark-mode .legend-item:hover {
+      background: var(--legend-pill-bg-darkmode-hover);
+    }
+
+    .legend-item.active {
+      background: white;
+      color: black;
+      border: 1px solid gray;
+    }
+
+    body.dark-mode .legend-item.active {
+      background: #ffffff;
+      color: #000000;
+      border-color: #000000;
+    }
+
+    .legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .legend-item[data-status="all"] .legend-swatch {
+      display: none;
+    }
+
+    .legend-swatch.all {
+      background: var(--trail-gray);
+    }
+
+    .legend-swatch.new {
+      background: var(--pastel-installed);
+    }
+
+    .legend-swatch.requested {
+      background: var(--pastel-requested);
+    }
+
+    .legend-swatch.needs-repairs {
+      background: var(--pastel-needs);
+    }
+
+    .legend-swatch.missing {
+      background: var(--pastel-missing);
+    }
+
+    .legend-swatch.coming-soon {
+      background: var(--pastel-coming);
+    }
+
+    .map-controls {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 500;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+    }
+
+    .map-btn {
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
+      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    body.dark-mode .map-btn {
+      background: #3a4345;
+      color: var(--text-main);
+    }
+
+    .map-btn:hover {
+      background: var(--legend-pill-bg);
+    }
+
+    body.dark-mode .map-btn:hover {
+      background: var(--legend-pill-bg-darkmode-hover);
+    }
+
+    .map-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.22);
+    }
+
+    .map-btn[disabled] {
+      opacity: 0.6;
+      cursor: wait;
+      transform: none;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.18);
+    }
+
+    .map-search-panel {
+      position: absolute;
+      top: 56px;
+      right: 12px;
+      z-index: 500;
+      width: 260px;
+      max-width: calc(100% - 40px);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+
+    .map-search-panel.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .map-search-inner {
+      border-radius: 12px;
+      background: var(--card-bg);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .map-search-inner input {
+      width: 100%;
+      border: none;
+      outline: none;
+      padding: 0.55rem 0.7rem;
+      font-size: 0.86rem;
+      font-family: inherit;
+      background: transparent;
+      color: var(--text-main);
+    }
+
+    .map-search-inner input::placeholder {
+      color: var(--muted-text);
+    }
+
+    .map-search-results {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    .map-search-results li {
+      padding: 0.45rem 0.7rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .map-search-results li:hover {
+      background: var(--legend-pill-bg);
+    }
+
+    .map-search-result-title {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .map-search-result-sub {
+      font-size: 0.78rem;
+      color: var(--muted-text);
+    }
+
+    .map-search-empty {
+      padding: 0.5rem 0.7rem;
+      font-size: 0.8rem;
+      color: var(--muted-text);
+    }
+
+    @media (max-width: 600px) {
+      .map-search-panel {
+        left: 12px;
+        right: 12px;
+        width: auto;
+      }
+    }
+
+    .cta-row {
+      display: flex;
+      gap: .75rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .7rem 1.3rem;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: .22s;
+    }
+
+    .primary-btn {
+      background: var(--bench-green);
+      color: white;
+    }
+    .primary-btn:hover {
+      background: #356b4f;
+      text-decoration: none;
+    }
+
+    body.dark-mode .primary-btn:hover {
+      background: #66b986;
+    }
+
+    .secondary-btn {
+      border: 1px solid #cdd3cd;
+      background: var(--secondary-btn-bg);
+      color: var(--bench-green);
+    }
+    .secondary-btn:hover {
+      background: #f5faf6;
+      text-decoration: none;
+    }
+
+    body.dark-mode .secondary-btn {
+      border-color: #3a4444;
+    }
+    body.dark-mode .secondary-btn:hover {
+      background: #202627;
+    }
+
+    .links-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+    }
+
+    .link-list {
+      list-style: none;
+      padding: 0;
+      margin: .4rem 0 0;
+    }
+
+    .link-tag {
+      background: var(--link-tag-bg);
+      padding: .25rem .55rem;
+      border-radius: 8px;
+      font-size: .72rem;
+      margin-left: .3rem;
+    }
+
+    .upcoming-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.6rem 0 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .upcoming-item {
+      padding: 0.75rem 0.9rem;
+      border-radius: 12px;
+      background: var(--upcoming-pill-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .upcoming-title {
+      font-weight: 600;
+      font-size: 0.96rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .upcoming-link {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--indy-blue);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .upcoming-link:hover {
+      text-decoration: underline;
+    }
+
+    .upcoming-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted-text);
+      align-items: center;
+    }
+
+    .upcoming-pill {
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      background: rgba(0,0,0,0.04);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .upcoming-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .upcoming-pill--planning {
+      background: rgba(255, 224, 138, 0.10);
+    }
+    .upcoming-pill--planning .upcoming-dot {
+      background: var(--pastel-needs);
+    }
+
+    .upcoming-pill--materials {
+      background: rgba(200, 74, 74, 0.12);
+    }
+    .upcoming-pill--materials .upcoming-dot {
+      background: var(--pastel-missing);
+    }
+
+    .upcoming-pill--production {
+      background: rgba(64, 110, 135, 0.10);
+    }
+    .upcoming-pill--production .upcoming-dot {
+      background: var(--pastel-requested);
+    }
+
+    .upcoming-pill--install {
+      background: rgba(83, 172, 123, 0.12);
+    }
+    .upcoming-pill--install .upcoming-dot {
+      background: var(--pastel-installed);
+    }
+
+    body.dark-mode .upcoming-pill {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .upcoming-loading {
+      margin-top: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--muted-text);
+    }
+
+    .report-context {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .35rem .75rem;
+      border-radius: 10px;
+      background: var(--link-tag-bg);
+      border: 1px solid var(--border-subtle);
+      font-size: .8rem;
+      margin-bottom: .75rem;
+    }
+
+    .report-context-label {
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      font-weight: 600;
+      font-size: .7rem;
+      color: var(--muted-text);
+    }
+
+    .report-context-text {
+      font-weight: 600;
+    }
+
+    body.dark-mode .report-context {
+      background: #181C1D;
+      border-color: var(--border-subtle);
+    }
+
+    footer {
+      text-align: center;
+      padding: 0rem 1rem 2.5rem;
+      color: var(--footer-text);
+      font-size: .86rem;
+    }
+
+    .footer-credit {
+      margin-top: .4rem;
+    }
+
+    .brand-link {
+      font-family: "Manrope";
+      font-weight: 600;
+      color: var(--bench-green);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    /* Dot-style bench markers (base state) */
+    .bench-marker {
+      position: relative;
+      width: 26px;
+      height: 32px;
+      transform-origin: 50% 50%;
+    }
+
+    .bench-marker-inner {
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 12px;
+      height: 12px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+      border: 1px solid rgba(0,0,0,0.25);
+    }
+
+    /* Status colors (dot) */
+    .bench-marker--installed {
+      color: var(--pastel-installed);
+    }
+    .bench-marker--installed .bench-marker-inner {
+      background: var(--pastel-installed);
+    }
+
+    .bench-marker--requested {
+      color: var(--pastel-requested);
+    }
+    .bench-marker--requested .bench-marker-inner {
+      background: var(--pastel-requested);
+    }
+
+    .bench-marker--needs-repairs {
+      color: var(--pastel-needs);
+    }
+    .bench-marker--needs-repairs .bench-marker-inner {
+      background: var(--pastel-needs);
+    }
+
+    .bench-marker--missing {
+      color: var(--pastel-missing);
+    }
+    .bench-marker--missing .bench-marker-inner {
+      background: var(--pastel-missing);
+    }
+
+    .bench-marker--coming-soon {
+      color: var(--pastel-coming);
+    }
+    .bench-marker--coming-soon .bench-marker-inner {
+      background: var(--pastel-coming);
+    }
+
+    /* Selected marker: larger + pin-style + glow */
+    .bench-marker--selected {
+      transform: scale(1.5) translateY(-4px);
+      filter: drop-shadow(0 0 8px rgba(0,0,0,0.25));
+    }
+
+    .bench-marker--selected .bench-marker-inner {
+      width: 30px;
+      height: 30px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    }
+
+    .bench-marker--selected::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      width: 26px;
+      height: 26px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+    }
+
+    .bench-marker--selected::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -5px;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 6px 0 6px;
+      border-color: currentColor transparent transparent transparent;
+      opacity: 0.95;
+    }
+
+    .marker-cluster div {
+      width: 38px;
+      height: 38px;
+      margin-left: -19px;
+      margin-top: -19px;
+      border-radius: 50%;
+      text-align: center;
+      background-clip: padding-box;
+      line-height: 36px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+      color: #ffffff;
+    }
+
+    .marker-cluster-installed div {
+      background: var(--pastel-installed);
+      color: #225A35;
+    }
+    .marker-cluster-requested div {
+      background: var(--pastel-requested);
+      color: #25455A;
+    }
+    .marker-cluster-needs-repairs div {
+      background: var(--pastel-needs);
+      color: #665B1F;
+    }
+    .marker-cluster-missing div {
+      background: var(--pastel-missing);
+      color: #702E2E;
+    }
+    .marker-cluster-coming-soon div {
+      background: var(--pastel-coming);
+      color: #3D2F68;
+    }
+
+    body.dark-mode .marker-cluster-installed div,
+    body.dark-mode .marker-cluster-requested div,
+    body.dark-mode .marker-cluster-needs-repairs div,
+    body.dark-mode .marker-cluster-missing div,
+    body.dark-mode .marker-cluster-coming-soon div {
+      border-color: #000000;
+    }
+
+    /* Contact quick form */
+    .contact-quick-form {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+    }
+
+    body.dark-mode .contact-quick-form {
+      background: #15191a;
+    }
+
+    .contact-quick-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr);
+      gap: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      .contact-quick-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .contact-quick-form .field label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .contact-quick-form input,
+    .contact-quick-form select,
+    .contact-quick-form textarea {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.88rem;
+      box-shadow: none;
+      outline: none;
+    }
+
+    .contact-quick-form select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      background-color: transparent;
+      background-image: none;
+    }
+
+    body.dark-mode .contact-quick-form input,
+    body.dark-mode .contact-quick-form select,
+    body.dark-mode .contact-quick-form textarea {
+      background: #111415;
+      border-color: #333b3d;
+      color: var(--text-main);
+    }
+
+    .contact-quick-form input::placeholder,
+    .contact-quick-form textarea::placeholder {
+      color: var(--muted-text);
+    }
+
+    .contact-quick-form .contact-submit-btn {
+      margin-top: 0.85rem;
+    }
+
+    .contact-hint {
+      margin-top: 0.4rem;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="mode-toggle-wrapper">
+    <button id="modeToggle" type="button" onclick="toggleMode()" aria-label="Toggle dark mode">
+      <i class="fa-regular fa-sun"></i>
+    </button>
+
+    <div class="mode-toggle-auto">
+      <label class="mode-auto-label">
+        <input type="checkbox" id="themeAutoToggle" />
+        <span>Auto</span>
+      </label>
+    </div>
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <img
+        id="siteLogo"
+        src="./assets/images/logo.png"
+        alt="Indy Bench Mench logo"
+      />
+    </div>
+  </header>
+
+  <main>
+    <section id="about">
+      <div class="about-layout">
+        <div>
+          <h1>More places to sit.<br>More reasons to stay a while.</h1>
+          <p>
+            Indy Bench Mench is a grassroots project by Anderson York, building and placing free benches in spots around Indianapolis where people need a place to rest.
+          </p>
+          <p>
+            Every bench is a small act of guerrilla urbanism, helping fix the spots where public comfort is missing.
+          </p>
+
+          <div class="bench-count-badge">
+            <span class="red-heart">♥</span>
+            <span class="bench-count-text">Benches placed: XX and counting</span>
+          </div>
+        </div>
+
+        <img class="about-image" src="./assets/images/about-photo.png" alt="Anderson York sitting on a bench in Indianapolis." />
+      </div>
+    </section>
+
+    <section id="map-section">
+      <h2>Find a bench near you.</h2>
+      <p>Tap a bench to see details or report an issue.</p>
+
+      <div class="map-layout">
+        <div class="map-wrapper">
+          <div id="map-loading" class="map-loading">Loading projects...</div>
+          <div id="map"></div>
+
+          <div class="map-controls">
+            <button
+              id="map-locate-btn"
+              class="map-btn"
+              type="button"
+              aria-label="Locate me"
+              title="Locate me">
+              <i class="fa-solid fa-location-crosshairs"></i>
+            </button>
+            <button
+              id="map-search-toggle"
+              class="map-btn"
+              type="button"
+              aria-label="Search for a place"
+              title="Search for a place">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+
+          <div id="map-search-panel" class="map-search-panel">
+            <div class="map-search-inner">
+              <input
+                type="text"
+                id="map-search-input"
+                placeholder="Search address or place…"
+                autocomplete="off"
+              />
+              <ul id="map-search-results" class="map-search-results">
+                <li class="map-search-empty">Type an address or place to search.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="legend">
+            <button class="legend-item active" data-status="all">
+              <span class="legend-swatch all"></span>
+              All
+            </button>
+            <button class="legend-item" data-status="installed">
+              <span class="legend-swatch new"></span>
+              Installed
+            </button>
+            <button class="legend-item" data-status="coming-soon">
+              <span class="legend-swatch coming-soon"></span>
+              Coming Soon
+            </button>
+            <button class="legend-item" data-status="requested">
+              <span class="legend-swatch requested"></span>
+              Requested
+            </button>
+            <button class="legend-item" data-status="needs-repairs">
+              <span class="legend-swatch needs-repairs"></span>
+              Needs Repairs
+            </button>
+            <button class="legend-item" data-status="missing">
+              <span class="legend-swatch missing"></span>
+              Missing
+            </button>
+          </div>
+        </div>
+
+        <aside id="mapDetailPanel" class="map-detail-panel">
+          <div class="map-detail-empty">
+            <h3 class="map-detail-title">Bench details</h3>
+            <p>Tap a bench dot on the map to see its name, status, and how to help.</p>
+          </div>
+        </aside>
+      </div>
+
+      <div class="cta-row">
+        <a
+          href="#contact"
+          class="primary-btn"
+          data-contact-reason="Suggest a project location"
+        >
+          <i class="fa-solid fa-location-dot"></i>
+          <span>Suggest a bench</span>
+        </a>
+
+        <a
+          href="#contact"
+          class="secondary-btn"
+          data-contact-reason="Report an issue with an existing bench"
+        >
+          <i class="fa-solid fa-screwdriver-wrench"></i>
+          <span>Report an issue</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="upcoming">
+      <h2>Coming soon.</h2>
+      <p class="muted">
+        Benches and small projects that are in the works but not quite in the ground yet.
+      </p>
+
+      <div id="upcoming-loading" class="upcoming-loading">
+        Loading upcoming benches…
+      </div>
+
+      <ul class="upcoming-list">
+      </ul>
+    </section>
+
+    <section id="donate">
+      <h2>Help build more benches.</h2>
+      <p>
+        Each bench takes real stuff you can hold in your hands: lumber, exterior screws,
+        weatherproof finish, and sometimes concrete anchors to keep things secure.
+      </p>
+      <p>
+        If you’d like to donate materials instead of (or in addition to) money, we’re
+        especially looking for:
+      </p>
+      <ul style="margin:.4rem 0 1rem; padding-left:1.1rem;">
+        <li>2×4 and 2×6 lumber (outdoor-friendly, no major defects)</li>
+        <li>Exterior wood screws and hardware</li>
+        <li>Exterior stain / sealer</li>
+        <li>Concrete anchors or brackets for high-traffic spots</li>
+      </ul>
+      <p>
+        Use the contact form below and choose “Other ways to help” or “General contact” to
+        let us know what you’d like to donate. We’ll follow up with where and how to drop
+        things off.
+      </p>
+
+      <div class="cta-row">
+        <a
+          href="#contact"
+          class="primary-btn"
+          data-contact-reason="Support / help with a bench project"
+        >
+          <i class="fa-solid fa-hand-holding-heart"></i>
+          <span>Donate</span>
+        </a>
+
+        <a
+          href="#contact"
+          class="secondary-btn"
+          data-contact-reason="General question or comment"
+        >
+          <i class="fa-solid fa-comments"></i>
+          <span>Discuss other ways to help</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="links">
+      <h2>Stay connected.</h2>
+
+      <div class="links-layout">
+        <div>
+          <h3>Our links</h3>
+          <ul class="link-list">
+            <li><a href="https://instagram.com/indybenchmench">Instagram</a></li>
+            <li><a href="mailto:hello@indybenchmench.org">Email</a></li>
+            <li><a href="#">Merch (coming soon)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Neighbors</h3>
+          <ul class="link-list">
+            <li>
+              <a href="https://indyculturaltrail.org">Indianapolis Cultural Trail</a>
+              <span class="link-tag">Public Space</span>
+            </li>
+            <li>
+              <a href="https://www.kibi.org">Keep Indianapolis Beautiful</a>
+              <span class="link-tag">Greening</span>
+            </li>
+            <li>
+              <a href="https://bikeindianapolis.org">Bike Indianapolis</a>
+              <span class="link-tag">Mobility</span>
+            </li>
+            <li>
+              <a href="https://strongtowns.org">Strong Towns</a>
+              <span class="link-tag">Urbanism</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>Suggest a bench, report an issue, or just say hi.</h2>
+
+      <div id="reportContext" class="report-context" hidden>
+        <i id="reportContextIcon" class="fa-solid fa-screwdriver-wrench"></i>
+        <span class="report-context-label">REPORTING AN ISSUE</span>
+        <span id="reportContextText" class="report-context-text">Bench</span>
+      </div>
+
+      <p>This single form handles everything:</p>
+
+      <ul style="margin:.4rem 0 1rem; padding-left:1.1rem;">
+        <li><b>Suggest a new bench</b></li>
+        <li><b>Report an issue</b></li>
+        <li><b>General questions or ideas</b></li>
+      </ul>
+
+      <form id="contactQuickForm" class="contact-quick-form">
+        <div class="contact-quick-grid">
+          <div class="field">
+            <label for="qcReason">What are you reaching out about?</label>
+            <select id="qcReason" name="qcReason" required>
+              <option value="">Select one…</option>
+              <option value="Suggest a project location">Suggest a new bench</option>
+              <option value="Report an issue with an existing bench">Report an issue</option>
+              <option value="Support / help with a bench project">Donate / help with a bench</option>
+              <option value="General question or comment">General comment or question</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="qcBenchRef">Bench or location (if you know it)</label>
+            <input
+              type="text"
+              id="qcBenchRef"
+              name="qcBenchRef"
+              placeholder="Cross streets, address, or bench ID"
+            />
+          </div>
+        </div>
+
+        <button type="submit" class="primary-btn contact-submit-btn">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Open full form</span>
+        </button>
+        <p class="muted contact-hint">
+          We’ll open the Google Form with this info pre-filled so you can add details &amp; submit.
+        </p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> Indy Bench Mench. All rights reserved.</div>
+    <div class="footer-credit">
+      Made with <span class="red-heart">♥</span> by <a href="http://www.bradleyjon.es" class="brand-link">Bradley Dean Jones</a>
+    </div>
+  </footer>
+
+  <!-- MAP JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script>
+  // === Google Form integration ===
+  const FORM_BASE_URL = "https://docs.google.com/forms/d/e/1FAIpQLScTK9DIiJvbWKhIjkRGaVIJgjOWjv1NNr6R1roRWa-BRcjl_A/viewform";
+
+  const FORM_FIELDS = {
+    reason: "entry.1421101272",
+    where:  "entry.1766777011",
+    about:  "entry.2142731685",
+    help:   "entry.582606900",
+  };
+
+  let currentReasonPrefill = "";
+  let currentBenchRefPrefill = "";
+
+  function openPrefilledGoogleForm(reasonText, benchRef) {
+    const params = new URLSearchParams();
+
+    const reason = reasonText || currentReasonPrefill || "";
+    const ref = benchRef || currentBenchRefPrefill || "";
+
+    if (FORM_FIELDS.reason && reason) {
+      params.set(FORM_FIELDS.reason, reason);
+    }
+
+    if (ref) {
+      if (FORM_FIELDS.where) params.set(FORM_FIELDS.where, ref);
+      if (FORM_FIELDS.about) params.set(FORM_FIELDS.about, ref);
+      if (FORM_FIELDS.help)  params.set(FORM_FIELDS.help,  ref);
+    }
+
+    const url = `${FORM_BASE_URL}?${params.toString()}`;
+    window.open(url, "_blank", "noopener");
+  }
+
+  // Year
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const LIGHT_LOGO = "./assets/images/logo.png";
+  const DARK_LOGO  = "./assets/images/logo-darkmode.png";
+
+  const MAPTILER_KEY = "1k5gFwMt5iejKq5lTOyz";
+  const MAPTILER_GEOCODE_URL = "https://api.maptiler.com/geocoding/";
+
+  const THEME_MODE_KEY = "ibm-theme-mode"; // 'auto' | 'light' | 'dark'
+
+  let lightBaseLayer = null;
+  let darkBaseLayer = null;
+  let map;
+  let autoMode = true;
+  let systemMediaQuery = null;
+
+  function updateLogoForMode() {
+    const logo = document.getElementById("siteLogo");
+    if (!logo) return;
+
+    if (document.body.classList.contains("dark-mode")) {
+      logo.src = DARK_LOGO;
+    } else {
+      logo.src = LIGHT_LOGO;
+    }
+  }
+
+  function setBaseMapForCurrentMode() {
+    if (!map) return;
+
+    const isDark = document.body.classList.contains("dark-mode");
+
+    if (lightBaseLayer) {
+      map.removeLayer(lightBaseLayer);
+    }
+    if (darkBaseLayer) {
+      map.removeLayer(darkBaseLayer);
+    }
+
+    if (isDark) {
+      if (!darkBaseLayer) {
+        darkBaseLayer = L.tileLayer(
+          "https://api.maptiler.com/maps/dataviz-dark/{z}/{x}/{y}.png?key=" + MAPTILER_KEY,
+          {
+            maxZoom: 21,
+            attribution:
+              '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> ' +
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+          }
+        );
+      }
+      darkBaseLayer.addTo(map);
+    } else {
+      if (!lightBaseLayer) {
+        lightBaseLayer = L.tileLayer(
+          "https://api.maptiler.com/maps/bright-v2/{z}/{x}/{y}.png?key=" + MAPTILER_KEY,
+          {
+            maxZoom: 21,
+            attribution:
+              '&copy; <a href="https://www.maptiler.com/copyright/">MapTiler</a> ' +
+              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+          }
+        );
+      }
+      lightBaseLayer.addTo(map);
+    }
+  }
+
+  function applyTheme(isDark) {
+    document.body.classList.toggle("dark-mode", isDark);
+
+    const icon = document.querySelector("#modeToggle i");
+    if (icon) {
+      icon.className = isDark ? "fa-regular fa-moon" : "fa-regular fa-sun";
+    }
+
+    updateLogoForMode();
+    setBaseMapForCurrentMode();
+  }
+
+  function saveThemePreference() {
+    try {
+      if (autoMode) {
+        localStorage.setItem(THEME_MODE_KEY, "auto");
+      } else {
+        const isDark = document.body.classList.contains("dark-mode");
+        localStorage.setItem(THEME_MODE_KEY, isDark ? "dark" : "light");
+      }
+    } catch (e) {
+      console.warn("Could not save theme preference:", e);
+    }
+  }
+
+  function toggleMode() {
+    const isCurrentlyDark = document.body.classList.contains("dark-mode");
+    const nextIsDark = !isCurrentlyDark;
+
+    if (autoMode) {
+      autoMode = false;
+      const autoToggle = document.getElementById("themeAutoToggle");
+      if (autoToggle) {
+        autoToggle.checked = false;
+      }
+    }
+
+    applyTheme(nextIsDark);
+    saveThemePreference();
+  }
+
+  (function initTheme() {
+    const autoToggle = document.getElementById("themeAutoToggle");
+
+    if (window.matchMedia) {
+      systemMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    }
+
+    let stored = null;
+    try {
+      stored = localStorage.getItem(THEME_MODE_KEY);
+    } catch (e) {
+      console.warn("Could not read theme preference:", e);
+    }
+
+    if (stored === "light" || stored === "dark") {
+      autoMode = false;
+      const isDark = stored === "dark";
+      applyTheme(isDark);
+    } else {
+      autoMode = true;
+      const systemIsDark = systemMediaQuery ? systemMediaQuery.matches : false;
+      applyTheme(systemIsDark);
+    }
+
+    if (autoToggle) {
+      autoToggle.checked = autoMode;
+
+      autoToggle.addEventListener("change", (e) => {
+        autoMode = !!e.target.checked;
+
+        if (autoMode) {
+          const systemIsDark = systemMediaQuery ? systemMediaQuery.matches : false;
+          applyTheme(systemIsDark);
+        }
+        saveThemePreference();
+      });
+    }
+
+    if (systemMediaQuery) {
+      const handleSystemChange = (e) => {
+        if (!autoMode) return;
+        const isDark = e.matches;
+        applyTheme(isDark);
+      };
+
+      if (typeof systemMediaQuery.addEventListener === "function") {
+        systemMediaQuery.addEventListener("change", handleSystemChange);
+      } else if (typeof systemMediaQuery.addListener === "function") {
+        systemMediaQuery.addListener(handleSystemChange);
+      }
+    }
+
+    updateLogoForMode();
+  })();
+
+  const TARGET_MARKER_ZOOM = 18;
+  const MARKER_OFFSET_Y = -30;
+
+  map = L.map("map", {
+    zoomAnimation: true,
+    markerZoomAnimation: true,
+    fadeAnimation: true,
+  }).setView([39.7684, -86.1581], 12);
+
+  setBaseMapForCurrentMode();
+
+  // === Selection state (only one selected marker at a time) ===
+  let currentSelectedMarker = null;
+
+  function highlightMarker(marker) {
+    if (currentSelectedMarker && currentSelectedMarker._icon) {
+      currentSelectedMarker._icon.classList.remove("bench-marker--selected");
+    }
+    currentSelectedMarker = marker || null;
+    if (currentSelectedMarker && currentSelectedMarker._icon) {
+      currentSelectedMarker._icon.classList.add("bench-marker--selected");
+    }
+  }
+
+  function clearSelectionAndPanel() {
+    highlightMarker(null);
+    setDetailPanelContent(null);
+  }
+
+  const mapLoadingEl = document.getElementById("map-loading");
+  const mapDetailPanel = document.getElementById("mapDetailPanel");
+  const upcomingListEl = document.querySelector(".upcoming-list");
+  const upcomingLoadingEl = document.getElementById("upcoming-loading");
+  const mapLayoutEl = document.querySelector(".map-layout");
+
+  function setDetailPanelContent(html) {
+    if (!mapDetailPanel) return;
+
+    if (!html) {
+      mapDetailPanel.innerHTML = `
+        <div class="map-detail-empty">
+          <h3 class="map-detail-title">Bench details</h3>
+          <p>Tap a bench dot on the map to see its name, status, and how to help.</p>
+        </div>
+      `;
+
+      if (mapLayoutEl) {
+        mapLayoutEl.classList.remove("has-selection");
+      }
+
+      if (map) {
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 250);
+      }
+
+      return;
+    }
+
+    mapDetailPanel.innerHTML = html;
+
+    if (mapLayoutEl) {
+      mapLayoutEl.classList.add("has-selection");
+    }
+
+    mapDetailPanel.classList.remove("map-detail-panel--anim");
+    void mapDetailPanel.offsetWidth;
+    mapDetailPanel.classList.add("map-detail-panel--anim");
+
+    if (map) {
+      setTimeout(() => {
+        map.invalidateSize();
+
+        if (lastFocusedLatLng) {
+          const zoom = lastFocusedZoom || map.getZoom();
+          const point = map.project(lastFocusedLatLng, zoom);
+          const offsetPoint = L.point(point.x, point.y - MARKER_OFFSET_Y);
+          const targetLatLng = map.unproject(offsetPoint, zoom);
+
+          map.setView(targetLatLng, zoom, { animate: false });
+        }
+      }, 250);
+    }
+  }
+
+  // Clicking on empty map clears selection + collapses panel
+  map.on("click", (e) => {
+    const target = e.originalEvent && e.originalEvent.target;
+    if (target && target.closest && target.closest(".bench-marker")) {
+      return;
+    }
+    clearSelectionAndPanel();
+  });
+
+  let loadingDotsInterval = null;
+  const loaderStartedAt = Date.now();
+
+  (function initMapLoader() {
+    if (!mapLoadingEl) return;
+
+    if (!document.getElementById("map-loading-dots")) {
+      mapLoadingEl.innerHTML =
+        '<span class="map-loading-text">Loading projects<span id="map-loading-dots"></span></span>';
+    }
+
+    const loadingDotsEl = document.getElementById("map-loading-dots");
+    if (!loadingDotsEl) return;
+
+    let dotCount = 0;
+    loadingDotsInterval = setInterval(() => {
+      dotCount = (dotCount + 1) % 4;
+      loadingDotsEl.textContent = ".".repeat(dotCount);
+    }, 450);
+  })();
+
+  const allMarkers = [];
+  const markersByStatus = {
+    installed: [],
+    "coming-soon": [],
+    requested: [],
+    "needs-repairs": [],
+    missing: [],
+  };
+
+  const markersById = {};
+  let suppressNextHashFocus = false;
+
+  let userLocationMarker = null;
+  let searchLocationMarker = null;
+  let searchDebounceTimer = null;
+
+  let lastFocusedLatLng = null;
+  let lastFocusedZoom = TARGET_MARKER_ZOOM;
+
+  function createClusterGroup(statusKey) {
+    return L.markerClusterGroup({
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      disableClusteringAtZoom: 17,
+      iconCreateFunction(cluster) {
+        const count = cluster.getChildCount();
+        return L.divIcon({
+          html: "<div><span>" + count + "</span></div>",
+          className: "marker-cluster marker-cluster-" + statusKey,
+          iconSize: L.point(40, 40),
+        });
+      },
+    });
+  }
+
+  const clusterGroups = {
+    installed: createClusterGroup("installed"),
+    "coming-soon": createClusterGroup("coming-soon"),
+    requested: createClusterGroup("requested"),
+    "needs-repairs": createClusterGroup("needs-repairs"),
+    missing: createClusterGroup("missing"),
+  };
+
+  function fitMapToMarkers(markersArray) {
+    if (!markersArray.length) {
+      map.flyTo([39.7684, -86.1581], 12, {
+        duration: 0.6,
+      });
+      return;
+    }
+
+    if (markersArray.length === 1) {
+      const latlng = markersArray[0].getLatLng();
+      map.flyTo(latlng, TARGET_MARKER_ZOOM, {
+        duration: 0.6,
+      });
+    } else {
+      const group = L.featureGroup(markersArray);
+      const bounds = group.getBounds().pad(0.15);
+
+      map.flyToBounds(bounds, {
+        duration: 0.6,
+      });
+    }
+  }
+
+  function scrollToMapSection() {
+    const mapSection = document.getElementById("map-section");
+    if (mapSection) {
+      mapSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
+  function focusBenchById(benchId) {
+    if (!benchId) return;
+
+    const normalizedId = String(benchId).trim();
+    const marker = markersById[normalizedId];
+    if (!marker) {
+      console.warn("No marker found for ID:", normalizedId);
+      return;
+    }
+
+    highlightMarker(marker);
+
+    Object.values(clusterGroups).forEach((group) => {
+      if (!map.hasLayer(group)) {
+        map.addLayer(group);
+      }
+    });
+
+    const filterButtons = document.querySelectorAll(".legend .legend-item");
+    filterButtons.forEach((b) => b.classList.remove("active"));
+    const allButton = document.querySelector('.legend .legend-item[data-status="all"]');
+    if (allButton) allButton.classList.add("active");
+
+    const latlng = marker.getLatLng();
+    const targetZoom = TARGET_MARKER_ZOOM;
+    const statusKey = marker.options.statusKey;
+    const group = clusterGroups[statusKey];
+
+    lastFocusedLatLng = latlng;
+    lastFocusedZoom = targetZoom;
+
+    const doFlyAndOpen = () => {
+      map.flyTo(latlng, targetZoom, {
+        duration: 0.6,
+      });
+
+      if (marker._panelHtml) {
+        setDetailPanelContent(marker._panelHtml);
+      }
+    };
+
+    if (group && group.zoomToShowLayer) {
+      group.zoomToShowLayer(marker, doFlyAndOpen);
+    } else {
+      doFlyAndOpen();
+    }
+
+    scrollToMapSection();
+  }
+
+  const sheetUrl =
+    "https://script.google.com/macros/s/AKfycbwJSPvpEN_bYd4cOlAHOkMVhm7Ol7ZSRSWfOV9v8OKceFy0CmW3ZYcwq89ZUhiAygtR/exec";
+
+  function getIconForStatus(statusKey) {
+    let statusClass = "bench-marker--installed";
+
+    switch (statusKey) {
+      case "installed":
+        statusClass = "bench-marker--installed";
+        break;
+      case "requested":
+        statusClass = "bench-marker--requested";
+        break;
+      case "needs-repairs":
+        statusClass = "bench-marker--needs-repairs";
+        break;
+      case "missing":
+        statusClass = "bench-marker--missing";
+        break;
+      case "coming-soon":
+        statusClass = "bench-marker--coming-soon";
+        break;
+      default:
+        statusClass = "bench-marker--installed";
+    }
+
+    return L.divIcon({
+      className: `bench-marker ${statusClass}`,
+      html: '<div class="bench-marker-inner"></div>',
+      iconSize: [26, 32],
+      iconAnchor: [13, 28],
+      popupAnchor: [0, -26],
+    });
+  }
+
+  const CACHE_KEY = "benchDataCache-v2";
+  const CACHE_TTL_MS = 5 * 60 * 1000;
+
+  function loadBenchData() {
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (
+          parsed &&
+          Array.isArray(parsed.data) &&
+          parsed.data.length &&
+          typeof parsed.timestamp === "number" &&
+          Date.now() - parsed.timestamp < CACHE_TTL_MS
+        ) {
+          return Promise.resolve({ data: parsed.data, fromCache: true });
+        }
+      }
+    } catch (e) {
+      console.warn("Failed reading cache:", e);
+    }
+
+    return fetch(sheetUrl)
+      .then((r) => r.json())
+      .then((data) => {
+        try {
+          localStorage.setItem(
+            CACHE_KEY,
+            JSON.stringify({ data, timestamp: Date.now() })
+          );
+        } catch (e) {
+          console.warn("Failed writing cache:", e);
+        }
+        return { data, fromCache: false };
+      });
+  }
+
+  function normalizeStatus(statusRaw) {
+    const s = (statusRaw || "").toString().trim().toLowerCase();
+    if (!s) return "installed";
+    if (s.startsWith("coming soon")) return "coming-soon";
+    return s.replace(/\s+/g, "-");
+  }
+
+  const STAGE_RANK = {
+    "installation-pending": 4,
+    "in-production": 3,
+    "sourcing-materials": 2,
+    "planning": 1,
+  };
+
+  function getUpcomingStage(statusRaw) {
+    const raw = (statusRaw || "").toString().trim();
+    const lower = raw.toLowerCase();
+
+    let stageText = raw;
+    const match = lower.match(/coming\s*soon\s*:\s*(.+)/);
+    if (match && match[1]) {
+      stageText = match[1].trim();
+    }
+
+    const stageLower = stageText.toLowerCase();
+
+    if (stageLower.includes("installation")) {
+      return { stageKey: "installation-pending", stageLabel: "Installation pending" };
+    }
+    if (stageLower.includes("production")) {
+      return { stageKey: "in-production", stageLabel: "In production" };
+    }
+    if (stageLower.includes("sourcing") || stageLower.includes("materials")) {
+      return { stageKey: "sourcing-materials", stageLabel: "Sourcing materials" };
+    }
+    if (stageLower.includes("planning")) {
+      return { stageKey: "planning", stageLabel: "Planning" };
+    }
+
+    return {
+      stageKey: "planning",
+      stageLabel: stageText || "Planning",
+    };
+  }
+
+  function getUpcomingPill(bench) {
+    const key = bench.stageKey || "planning";
+
+    switch (key) {
+      case "installation-pending":
+        return {
+          label: bench.stageLabel || "Installation pending",
+          dotColor: "var(--bench-green)",
+        };
+      case "in-production":
+        return {
+          label: bench.stageLabel || "In production",
+          dotColor: "var(--indy-blue)",
+        };
+      case "sourcing-materials":
+        return {
+          label: bench.stageLabel || "Sourcing materials",
+          dotColor: "var(--missing-red)",
+        };
+      case "planning":
+      default:
+        return {
+          label: bench.stageLabel || "Planning",
+          dotColor: "var(--sunbeam)",
+        };
+    }
+  }
+
+  function renderUpcomingList(comingSoonBenches) {
+    if (!upcomingListEl) return;
+
+    if (upcomingLoadingEl) {
+      upcomingLoadingEl.hidden = true;
+    }
+
+    upcomingListEl.innerHTML = "";
+
+    if (!comingSoonBenches.length) {
+      upcomingListEl.innerHTML = `
+        <li class="upcoming-item">
+          <div class="upcoming-title">No upcoming benches yet.</div>
+          <div class="upcoming-meta">
+            <span>Know a good spot? Use the contact form below.</span>
+          </div>
+        </li>
+      `;
+      return;
+    }
+
+    const sorted = [...comingSoonBenches].sort((a, b) => {
+      const rankA = STAGE_RANK[a.stageKey] || 0;
+      const rankB = STAGE_RANK[b.stageKey] || 0;
+      return rankB - rankA;
+    });
+
+    const fragments = [];
+
+    sorted.forEach((bench) => {
+      const pill = getUpcomingPill(bench);
+      const description = bench.description || "";
+      const idLink = bench.benchId ? `#${bench.benchId}` : "";
+      const linkHtml = bench.benchId
+        ? `<a class="upcoming-link" href="${idLink}">View on map</a>`
+        : "";
+
+      fragments.push(`
+        <li class="upcoming-item">
+          <div class="upcoming-title">
+            <span>${bench.benchName}</span>
+            ${linkHtml}
+          </div>
+          <div class="upcoming-meta">
+            <span class="upcoming-pill">
+              <span class="upcoming-dot" style="background: ${pill.dotColor};"></span>
+              ${pill.label}
+            </span>
+            ${description ? `<span>${description}</span>` : ""}
+          </div>
+        </li>
+      `);
+    });
+
+    upcomingListEl.innerHTML = fragments.join("");
+  }
+
+  loadBenchData()
+    .then(({ data }) => {
+      const validMarkers = [];
+      const comingSoonBenches = [];
+      const placedStatuses = new Set(["installed", "needs-repairs", "missing"]);
+      let placedCount = 0;
+
+      data.forEach((bench) => {
+        const rawLat = bench.LAT ?? bench.lat ?? bench.Lat ?? bench.latitude;
+        const rawLng = bench.LNG ?? bench.LON ?? bench.LONG ?? bench.LAN ?? bench.lng ?? bench.lon;
+
+        const lat = parseFloat(rawLat);
+        const lng = parseFloat(rawLng);
+
+        if (isNaN(lat) || isNaN(lng)) {
+          console.warn("Skipping bench with bad coords:", bench);
+          return;
+        }
+
+        const statusRaw = (bench.STATUS || bench.status || "").toString();
+        const statusKey = normalizeStatus(statusRaw);
+
+        const benchIdRaw = bench.ID || bench.id || "";
+        const benchId = String(benchIdRaw).trim();
+        const benchName = bench.NAME || bench.name || "Bench";
+        const description = bench.DESCRIPTION || bench.description || "";
+
+        if (placedStatuses.has(statusKey)) {
+          placedCount += 1;
+        }
+
+        if (statusKey === "coming-soon") {
+          const stageInfo = getUpcomingStage(statusRaw);
+
+          comingSoonBenches.push({
+            benchId,
+            benchName,
+            statusRaw,
+            description,
+            stageKey: stageInfo.stageKey,
+            stageLabel: stageInfo.stageLabel,
+          });
+        }
+
+        let popupButtonLabel = "Report issue";
+        let popupButtonIcon = "fa-screwdriver-wrench";
+
+        if (statusKey === "needs-repairs" || statusKey === "coming-soon") {
+          popupButtonLabel = "Support this project";
+          popupButtonIcon = "fa-hand-holding-heart";
+        } else if (statusKey === "requested") {
+          popupButtonLabel = "I want this too!";
+          popupButtonIcon = "fa-hand-pointer";
+        } else if (statusKey === "missing") {
+          popupButtonLabel = "Give information";
+          popupButtonIcon = "fa-circle-exclamation";
+        }
+
+        const panelHtml = `
+        <div class="map-detail-inner">
+          <h3 class="map-detail-title">${benchName}</h3>
+          <div class="map-detail-status">${statusRaw || "Installed"}</div>
+          ${
+            description
+              ? `<p class="map-detail-body">${description}</p>`
+              : ""
+          }
+          ${
+            bench.PHOTO_URL || bench.photo_url
+              ? `<img src="${bench.PHOTO_URL || bench.photo_url}"
+                   alt="${benchName}"
+                   style="width:100%;border-radius:10px;margin-top:.6rem;">`
+              : ""
+          }
+          <div style="margin-top:.6rem;">
+            <button type="button"
+              class="popup-report-link"
+              data-bench-id="${benchId}"
+              data-bench-name="${benchName}"
+              data-bench-status="${statusKey}"
+              style="
+                display:inline-flex;
+                align-items:center;
+                gap:.3rem;
+                padding:.4rem .85rem;
+                border-radius:10px;
+                background:white;
+                border:1px solid #d0d5cd;
+                font-size:.8rem;
+                font-weight:600;
+                color:#3D7E5A;
+                cursor:pointer;
+              ">
+              <i class="fa-solid ${popupButtonIcon}"></i> ${popupButtonLabel}
+            </button>
+          </div>
+        </div>
+      `;
+
+        const marker = L.marker([lat, lng], {
+          icon: getIconForStatus(statusKey),
+        });
+        marker.options.statusKey = statusKey;
+        marker.options.benchId = benchId;
+        marker._panelHtml = panelHtml;
+
+        if (benchId) {
+          markersById[benchId] = marker;
+        }
+
+        marker.on("click", (e) => {
+          lastFocusedLatLng = e.latlng;
+
+          const currentZoom = map.getZoom();
+          const targetZoom = Math.max(currentZoom, TARGET_MARKER_ZOOM);
+          lastFocusedZoom = targetZoom;
+
+          highlightMarker(marker);
+
+          setDetailPanelContent(marker._panelHtml || "");
+
+          const point = map.project(e.latlng, targetZoom);
+          const offsetPoint = L.point(point.x, point.y - MARKER_OFFSET_Y);
+          const targetLatLng = map.unproject(offsetPoint, targetZoom);
+
+          map.flyTo(targetLatLng, targetZoom, {
+            duration: 0.4,
+          });
+
+          if (marker.options.benchId) {
+            suppressNextHashFocus = true;
+            window.location.hash = marker.options.benchId;
+          }
+        });
+
+        allMarkers.push(marker);
+
+        if (markersByStatus[statusKey]) {
+          markersByStatus[statusKey].push(marker);
+        }
+
+        if (clusterGroups[statusKey]) {
+          clusterGroups[statusKey].addLayer(marker);
+        } else {
+          clusterGroups["installed"].addLayer(marker);
+        }
+
+        validMarkers.push(marker);
+      });
+
+      const countEl = document.querySelector(".bench-count-text");
+      if (countEl) {
+        countEl.textContent = `Benches placed: ${placedCount} and counting`;
+      }
+
+      Object.values(clusterGroups).forEach((group) => {
+        map.addLayer(group);
+      });
+
+      const legendButtons = document.querySelectorAll(".legend .legend-item");
+      legendButtons.forEach((btn) => {
+        const status = btn.dataset.status;
+        if (!status || status === "all") return;
+
+        const list = markersByStatus[status];
+        if (!list || list.length === 0) {
+          btn.style.display = "none";
+        } else {
+          btn.style.display = "";
+        }
+      });
+
+      fitMapToMarkers(validMarkers);
+
+      const MIN_LOADER_MS = 600;
+
+      function hideMapLoader() {
+        if (mapLoadingEl) {
+          mapLoadingEl.style.transition = "opacity 0.35s ease";
+          mapLoadingEl.style.opacity = "0";
+          setTimeout(() => {
+            mapLoadingEl.hidden = true;
+          }, 400);
+        }
+        if (loadingDotsInterval) {
+          clearInterval(loadingDotsInterval);
+        }
+      }
+
+      const elapsed = Date.now() - loaderStartedAt;
+      if (elapsed < MIN_LOADER_MS) {
+        setTimeout(hideMapLoader, MIN_LOADER_MS - elapsed);
+      } else {
+        hideMapLoader();
+      }
+
+      renderUpcomingList(comingSoonBenches);
+
+      const filterButtons = document.querySelectorAll(".legend .legend-item");
+
+      filterButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const status = btn.dataset.status;
+
+          // Clear any selected marker + collapse panel when changing filters
+          clearSelectionAndPanel();
+
+          filterButtons.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          Object.values(clusterGroups).forEach((group) => {
+            map.removeLayer(group);
+          });
+
+          let markersToShow = [];
+
+          if (status === "all") {
+            Object.values(clusterGroups).forEach((group) => {
+              map.addLayer(group);
+            });
+            markersToShow = allMarkers;
+          } else if (clusterGroups[status]) {
+            map.addLayer(clusterGroups[status]);
+            markersToShow = markersByStatus[status] || [];
+          }
+
+          fitMapToMarkers(markersToShow);
+        });
+      });
+
+      const initialHash = window.location.hash.replace(/^#/, "").trim();
+      if (initialHash) {
+        focusBenchById(initialHash);
+      }
+
+      window.addEventListener("hashchange", () => {
+        const id = window.location.hash.replace(/^#/, "").trim();
+        if (!id) return;
+
+        if (suppressNextHashFocus) {
+          suppressNextHashFocus = false;
+          return;
+        }
+
+        focusBenchById(id);
+      });
+
+      const locateBtn = document.getElementById("map-locate-btn");
+      if (locateBtn && "geolocation" in navigator) {
+        locateBtn.addEventListener("click", () => {
+          locateBtn.disabled = true;
+
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const { latitude, longitude } = pos.coords;
+
+              if (userLocationMarker) {
+                map.removeLayer(userLocationMarker);
+              }
+
+              userLocationMarker = L.circleMarker([latitude, longitude], {
+                radius: 8,
+                weight: 2,
+                color: "#406E87",
+                fillColor: "#BFD9ED",
+                fillOpacity: 0.9,
+              }).addTo(map);
+
+              const zoom = Math.max(map.getZoom(), 15);
+              map.flyTo([latitude, longitude], zoom, {
+                duration: 0.6,
+              });
+
+              locateBtn.disabled = false;
+            },
+            (err) => {
+              console.warn("Geolocation error:", err);
+              alert("Could not get your location. Please check browser permissions.");
+              locateBtn.disabled = false;
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 30000,
+            }
+          );
+        });
+      } else if (locateBtn) {
+        locateBtn.disabled = true;
+        locateBtn.title = "Geolocation is not supported in this browser.";
+      }
+
+      const searchToggleBtn = document.getElementById("map-search-toggle");
+      const searchPanel = document.getElementById("map-search-panel");
+      const searchInput = document.getElementById("map-search-input");
+      const searchResults = document.getElementById("map-search-results");
+
+      function openSearch() {
+        if (!searchPanel) return;
+        searchPanel.classList.add("open");
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }
+
+      function closeSearch() {
+        if (!searchPanel) return;
+        searchPanel.classList.remove("open");
+      }
+
+      if (searchToggleBtn) {
+        searchToggleBtn.addEventListener("click", () => {
+          if (!searchPanel) return;
+          const isOpen = searchPanel.classList.contains("open");
+          if (isOpen) {
+            closeSearch();
+          } else {
+            openSearch();
+          }
+        });
+      }
+
+      function renderSearchEmpty(message) {
+        if (!searchResults) return;
+        searchResults.innerHTML =
+          `<li class="map-search-empty">${message}</li>`;
+      }
+
+      function performSearch(query) {
+        if (!searchResults) return;
+        const trimmed = query.trim();
+        if (!trimmed) {
+          renderSearchEmpty("Type an address or place to search.");
+          return;
+        }
+
+        renderSearchEmpty("Searching…");
+
+        const url =
+          MAPTILER_GEOCODE_URL +
+          encodeURIComponent(trimmed) +
+          ".json?key=" +
+          encodeURIComponent(MAPTILER_KEY) +
+          "&language=en&limit=5&country=us&types=address,place,poi";
+
+        fetch(url)
+          .then((r) => r.json())
+          .then((res) => {
+            const features = res && Array.isArray(res.features) ? res.features : [];
+            if (!features.length) {
+              renderSearchEmpty("No results found.");
+              return;
+            }
+
+            const itemsHtml = features
+              .map((f) => {
+                const center = f.center || f.geometry?.coordinates || [];
+                const lon = center[0];
+                const lat = center[1];
+                if (typeof lon !== "number" || typeof lat !== "number") return "";
+
+                const title = f.text || f.place_name || "Location";
+                const subtitle = f.place_name || "";
+
+                return `
+                  <li
+                    data-lat="${lat}"
+                    data-lng="${lon}"
+                  >
+                    <span class="map-search-result-title">${title}</span>
+                    <span class="map-search-result-sub">${subtitle}</span>
+                  </li>
+                `;
+              })
+              .filter(Boolean)
+              .join("");
+
+            if (!itemsHtml) {
+              renderSearchEmpty("No results found.");
+              return;
+            }
+
+            searchResults.innerHTML = itemsHtml;
+          })
+          .catch((err) => {
+            console.error("Geocoding error:", err);
+            renderSearchEmpty("Could not search right now. Try again.");
+          });
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+          const value = e.target.value || "";
+          if (searchDebounceTimer) {
+            clearTimeout(searchDebounceTimer);
+          }
+          searchDebounceTimer = setTimeout(() => {
+            performSearch(value);
+          }, 350);
+        });
+
+        searchInput.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            closeSearch();
+          }
+        });
+      }
+
+      if (searchResults) {
+        searchResults.addEventListener("click", (e) => {
+          const li = e.target.closest("li[data-lat][data-lng]");
+          if (!li) return;
+
+          const lat = parseFloat(li.dataset.lat);
+          const lng = parseFloat(li.dataset.lng);
+          if (isNaN(lat) || isNaN(lng)) return;
+
+          if (searchLocationMarker) {
+            map.removeLayer(searchLocationMarker);
+          }
+
+          searchLocationMarker = L.circleMarker([lat, lng], {
+            radius: 7,
+            weight: 2,
+            color: "#406E87",
+            fillColor: "#BFD9ED",
+            fillOpacity: 0.9,
+          }).addTo(map);
+
+          const zoom = Math.max(map.getZoom(), 15);
+          map.flyTo([lat, lng], zoom, { duration: 0.6 });
+
+          closeSearch();
+        });
+      }
+    })
+    .catch((err) => {
+      console.error("Error loading bench data:", err);
+
+      if (mapLoadingEl) {
+        mapLoadingEl.style.opacity = "1";
+        mapLoadingEl.hidden = false;
+        mapLoadingEl.innerHTML =
+          '<span class="map-loading-text">Could not load upcoming projects</span>';
+      }
+      if (loadingDotsInterval) {
+        clearInterval(loadingDotsInterval);
+      }
+
+      if (upcomingLoadingEl) {
+        upcomingLoadingEl.textContent = "Could not load upcoming projects.";
+      }
+    });
+
+  // Quick contact form submit → open prefilled Google Form
+  const quickForm = document.getElementById("contactQuickForm");
+  if (quickForm) {
+    quickForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const reasonSelect = document.getElementById("qcReason");
+      const benchInput = document.getElementById("qcBenchRef");
+
+      const reasonText =
+        (reasonSelect && reasonSelect.value) || currentReasonPrefill || "";
+      const benchRef =
+        (benchInput && benchInput.value.trim()) || currentBenchRefPrefill || "";
+
+      openPrefilledGoogleForm(reasonText, benchRef);
+
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    });
+  }
+
+  // Global click handler for popup buttons + CTAs
+  document.addEventListener("click", (event) => {
+    const popupBtn = event.target.closest(".popup-report-link");
+    if (popupBtn) {
+      event.preventDefault();
+
+      const name = popupBtn.getAttribute("data-bench-name") || "Bench";
+      const id = popupBtn.getAttribute("data-bench-id") || "";
+      const statusKey = popupBtn.getAttribute("data-bench-status") || "";
+
+      const contextEl = document.getElementById("reportContext");
+      const contextText = document.getElementById("reportContextText");
+      const labelEl = document.querySelector(".report-context-label");
+      const iconEl = document.getElementById("reportContextIcon");
+
+      let contextLabel = "REPORTING AN ISSUE";
+      let iconClass = "fa-solid fa-screwdriver-wrench";
+
+      if (statusKey === "needs-repairs" || statusKey === "coming-soon") {
+        contextLabel = "HELPING SUPPORT";
+        iconClass = "fa-solid fa-hand-holding-heart";
+      } else if (statusKey === "requested") {
+        contextLabel = "GIVING ENDORSEMENT FOR";
+        iconClass = "fa-solid fa-hand-pointer";
+      } else if (statusKey === "missing") {
+        contextLabel = "PROVIDING INFORMATION ON";
+        iconClass = "fa-solid fa-circle-exclamation";
+      }
+
+      if (contextEl && contextText && labelEl) {
+        labelEl.textContent = contextLabel;
+        contextText.textContent = id ? `${name} (${id})` : name;
+        contextEl.hidden = false;
+      }
+
+      if (iconEl) {
+        iconEl.className = iconClass;
+      }
+
+      let reasonText = "Report an issue with an existing bench";
+      if (statusKey === "coming-soon" || statusKey === "needs-repairs") {
+        reasonText = "Support / help with a bench project";
+      } else if (statusKey === "requested") {
+        reasonText = "Suggest a project location";
+      } else if (statusKey === "missing") {
+        reasonText = "Report an issue with an existing bench";
+      }
+
+      const benchRef = id || name;
+
+      currentReasonPrefill = reasonText;
+      currentBenchRefPrefill = benchRef;
+
+      const reasonSelect = document.getElementById("qcReason");
+      const benchInput = document.getElementById("qcBenchRef");
+
+      if (reasonSelect) {
+        reasonSelect.value = reasonText;
+      }
+      if (benchInput && benchRef) {
+        benchInput.value = benchRef;
+      }
+
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      return;
+    }
+
+    const cta = event.target.closest("a[data-contact-reason]");
+    if (cta) {
+      event.preventDefault();
+
+      const reasonText = cta.getAttribute("data-contact-reason") || "";
+
+      const contextEl = document.getElementById("reportContext");
+      const contextText = document.getElementById("reportContextText");
+      const labelEl = document.querySelector(".report-context-label");
+      const iconEl = document.getElementById("reportContextIcon");
+
+      let contextLabel = "";
+      let iconClass = "fa-solid fa-comments";
+      let contextValue = "";
+
+      switch (reasonText) {
+        case "Suggest a project location":
+          contextLabel = "SUGGESTING A NEW PROJECT";
+          iconClass = "fa-solid fa-location-dot";
+          contextValue = "";
+          break;
+
+        case "Report an issue with an existing bench":
+          contextLabel = "REPORTING AN ISSUE";
+          iconClass = "fa-solid fa-screwdriver-wrench";
+          contextValue = "";
+          break;
+
+        case "Support / help with a bench project":
+          contextLabel = "DONATING, THANK YOU";
+          iconClass = "fa-solid fa-hand-holding-heart";
+          contextValue = "♥";
+          break;
+
+        case "General question or comment":
+          contextLabel = "GENERAL COMMENTS OR QUESTIONS";
+          iconClass = "fa-solid fa-comments";
+          contextValue = "";
+          break;
+      }
+
+      if (contextEl && labelEl && contextText) {
+        labelEl.textContent = contextLabel;
+        contextText.textContent = contextValue;
+        contextEl.hidden = false;
+      }
+
+      if (iconEl) {
+        iconEl.className = iconClass;
+      }
+
+      currentReasonPrefill = reasonText;
+      currentBenchRefPrefill = "";
+
+      const reasonSelect = document.getElementById("qcReason");
+      const benchInput = document.getElementById("qcBenchRef");
+
+      if (reasonSelect && reasonText) {
+        reasonSelect.value = reasonText;
+      }
+      if (benchInput) {
+        benchInput.value = "";
+      }
+
+      const contactSection = document.getElementById("contact");
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+      }
+
+      return;
+    }
+  });
+  </script>
+</body>
+</html>
